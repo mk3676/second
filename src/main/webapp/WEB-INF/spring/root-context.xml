@@ -34,7 +34,7 @@
 	    <property name="dataSource" ref="dataSource" />
 	</bean>	
 	
-	<mybatis-spring:scan base-package="com.suwon.ezen.mapper"/>
+	<mybatis-spring:scan base-package="com.suwon.ezen.controller.mapper"/>
 
 	
 	<aop:aspectj-autoproxy/>
