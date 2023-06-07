@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-@RequestMapping("/input")
+@RequestMapping("/main/*")
 @RestController
 public class MainController {
 	@GetMapping("/start")
@@ -15,4 +15,9 @@ public class MainController {
 		
 		return model;
 	}
+	@GetMapping("/index")
+	public void index() {}
+	
+	@GetMapping("/register")
+	public void register() {}
 }
