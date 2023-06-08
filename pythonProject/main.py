@@ -7,9 +7,14 @@ from sqlalchemy import create_engine
 import pymysql
 from werkzeug.utils import secure_filename
 from database import Database
+import json
+from flask_cors import CORS
+
+## CORS : pip install flask-cors <= 요거는 필수/이거 안하면 데이터가 jsp쪽으로 return이 안되용
+## __init()__ got multiple values for argument 'schema' 오류 발생시 pip install --upgrade pandas
 
 app = Flask(__name__)
-
+CORS(app)
 
 # n자리의 난수 생성
 def randNumber(num):
@@ -84,12 +89,12 @@ def insertInfo(info, key, flag):
     db = Database()
 
     if flag == "false":
-        sql += "insert into info values(null, '" + info["name"] + "', '" + info["phone"] + "', '" + info[
-            "email"] + "', '" + info["password"] + "', null, '" + key + "_loc', '" + key + "_tilt')"
+        sql += "insert into userInfo values(null, '" + info["name"] + "', '" + info["phone"] + "', '" + info[
+            "email"] + "', '" + info["password"] + "', null, '" + key + "_loc', '" + key + "_tilt', '" + key + "')"
         print("이미지 없음")
     elif flag == "true":
-        sql += "insert into info values(null, '" + info["name"] + "', '" + info["phone"] + "', '" + info[
-            "email"] + "', '" + info["password"] + "', '" + key + "', '" + key + "_loc', '" + key + "_tilt')"
+        sql += "insert into userInfo values(null, '" + info["name"] + "', '" + info["phone"] + "', '" + info[
+            "email"] + "', '" + info["password"] + "', '" + key + "', '" + key + "_loc', '" + key + "_tilt', '" + key + "')"
         print("이미지 있음")
 
     db.execute(sql)
@@ -124,6 +129,9 @@ def registerFiles(file=None):
     # 개인정보 table에 저장
     insertInfo(info, key, flag)
 
+    returnObj = {"pointer": key}
+    print(json.dumps(returnObj))
+    return json.dumps(returnObj)
 
 if __name__ == '__main__':
     app.run()

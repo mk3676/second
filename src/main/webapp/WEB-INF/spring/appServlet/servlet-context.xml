@@ -39,9 +39,11 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.suwon.ezen.controller" />
-	
-	
+	<context:component-scan base-package="com.suwon.ezen" />
+<!-- 	<context:component-scan base-package="com.suwon.ezen.mapper" />
+	<context:component-scan base-package="com.suwon.ezen.service" />
+	<context:component-scan base-package="com.suwon.ezen.vo" />
+	 -->
 	
 	
 	
