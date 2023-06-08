@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+      <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
   <!DOCTYPE html>
   <html>
 
@@ -21,7 +24,7 @@
             processData: false,
             data: formData,
             success(result) {
-              console.log(result)
+              location.href = "/main/start?pointer=" + result["pointer"]
             }
           });
         });
@@ -38,6 +41,10 @@
       <input type="file" name="file[]" id="file" multiple>
       <input type="button" value="버튼" id="submitButton">
     </form>
+    
+
+    	${info.pointer}
+
   </body>
 
   </html>
