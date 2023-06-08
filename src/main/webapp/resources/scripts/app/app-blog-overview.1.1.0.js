@@ -16,7 +16,7 @@
     // Blog Overview Users
     //
 
-    var bouCtx = document.getElementsByClassName('blog-overview-users')[0];
+    var bouCtx = document.getElementsByClassName('blog-overview-chart')[0];
 
     // Data
     var bouData = {
@@ -118,7 +118,7 @@
     aocMeta.data[bouData.datasets[0].data.length - 1]._model.radius = 0;
 
     // Render the chart.
-    window.BlogOverviewUsers.render();
+    //window.BlogOverviewUsers.render();
 
   });
-})(jQuery);
+}); //(jQuery)

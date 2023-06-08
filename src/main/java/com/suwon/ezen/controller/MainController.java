@@ -1,7 +1,6 @@
 package com.suwon.ezen.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,9 +39,18 @@ public class MainController {
 	}
 	
 	@GetMapping("/index")
-	public void index() {}
+	public ModelAndView index() {
+		ModelAndView model = new ModelAndView();
+		model.setViewName("/main/index");
+		model.addObject("list", null);
+		
+		return model;
+	}
 	
 	@GetMapping("/register")
-	public void register() {}
-	
+	public ModelAndView register() {
+		ModelAndView model = new ModelAndView();
+		model.setViewName("/main/register");
+		return model;
+	}
 }

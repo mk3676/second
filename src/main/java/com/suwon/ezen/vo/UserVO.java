@@ -1,7 +1,5 @@
 package com.suwon.ezen.vo;
 
-import org.springframework.stereotype.Repository;
-
 import lombok.Data;
 
 @Data
