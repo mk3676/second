@@ -16,8 +16,18 @@ public class MainController {
 		return model;
 	}
 	@GetMapping("/index")
-	public void index() {}
+	public ModelAndView index() {
+		ModelAndView model = new ModelAndView();
+		model.setViewName("/main/index");
+		model.addObject("list", null);
+		
+		return model;
+	}
 	
 	@GetMapping("/register")
-	public void register() {}
+	public ModelAndView register() {
+		ModelAndView model = new ModelAndView();
+		model.setViewName("/main/register");
+		return model;
+	}
 }
