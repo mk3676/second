@@ -1,6 +1,7 @@
 package com.suwon.ezen.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,14 @@ public class DataServiceImpl implements DataService {
 		List<String> result = mapper.getTiltColumn(tiltName);
 		
 		return result;
+	}
+
+	// 전체 데이터 가져오기
+	@Override
+	public List<Map<String, String>> getTable(UserVO info, List<String> columnList) {
+		List<Map<String, String>> map = mapper.getTable(info, columnList);
+		
+		return map;
 	}
 
 }

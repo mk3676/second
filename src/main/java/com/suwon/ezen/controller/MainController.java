@@ -1,6 +1,7 @@
 package com.suwon.ezen.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,7 @@ public class MainController {
 		if (pointer != null) {
 			System.out.println("포인터가 있는 경우");
 			model.addObject("pointer", pointer);
-			model.setViewName("redirect:/main/displayData");
+			model.setViewName("redirect:/main/displayColumn");
 		}
 		else {
 			model.setViewName("test");
@@ -37,17 +38,27 @@ public class MainController {
 		return model;
 	}
 	
-	@GetMapping("displayData")
-	public ModelAndView displayData(String pointer) {
-		System.out.println("displayData, pointer: " + pointer);
+	@GetMapping("displayColumn")
+	public ModelAndView displayColumn(String pointer) {
+		System.out.println("displayColumn, pointer: " + pointer);
 		UserVO vo = service.getUserInfo(pointer);
 		
 		List<String> columnList =  service.getTiltColumn(vo.getTiltName());
 		columnList.remove("index");
 		columnList.remove("opdatetime");
+	
+		for (String str: columnList) {
+			System.out.println(str);
+		}
 
+		List<Map<String, String>> mapList = service.getTable(vo, columnList);
+		for (Map<String, String> map: mapList) {
+			System.out.println("!!!!!!!" + map.keySet());
+		}
+		System.out.println(service.getTable(vo, columnList));
+		
 		ModelAndView model = new ModelAndView();
-		model.addObject("columnList", columnList);
+
 		model.setViewName("test");
 		
 		return model;
