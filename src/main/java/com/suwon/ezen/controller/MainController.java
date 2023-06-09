@@ -53,19 +53,20 @@ public class MainController {
 		return model;
 	}
 	
-	@GetMapping("/index")
+	@GetMapping("/second")
 	public ModelAndView index() {
 		ModelAndView model = new ModelAndView();
-		model.setViewName("/main/index");
+		model.setViewName("/main/second");
 		model.addObject("list", null);
 		
 		return model;
 	}
 	
-	@GetMapping("/register")
+	@GetMapping("/first")
 	public ModelAndView register() {
 		ModelAndView model = new ModelAndView();
-		model.setViewName("/main/register");
+		model.setViewName("/main/first");
+		
 		return model;
 	}
 }

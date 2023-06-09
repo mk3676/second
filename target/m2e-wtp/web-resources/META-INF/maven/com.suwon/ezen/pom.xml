@@ -13,140 +13,7 @@
 		<org.aspectj-version>1.9.0</org.aspectj-version>
 		<org.slf4j-version>1.7.25</org.slf4j-version>
 	</properties>
-	
 	<dependencies>
-		<!-- 웹 소켓 사용 -->
-	<!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
-	<!-- JSON -->
-	<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-messaging</artifactId>
-		<version>${org.springframework-version}</version>
-	</dependency>
-	
-	<dependency>
-		<groupId>org.json</groupId>
-		<artifactId>json</artifactId>
-		<version>20160810</version>
-	</dependency>
-	
-	<dependency>
-		<groupId>com.googlecode.json-simple</groupId>
-	  	<artifactId>json-simple</artifactId>
-	  	<version>1.1.1</version>
-	</dependency>
-	
-	<!-- WebSocket -->
-	 <dependency>
-    <groupId>com.fasterxml.jackson.core</groupId>
-    	<artifactId>jackson-databind</artifactId>
-    	<version>2.11.0</version>
-  	</dependency>
-	<dependency>
-	   	<groupId>org.springframework</groupId>
-		<artifactId>spring-websocket</artifactId>
-		<version>${org.springframework-version}</version>
-	</dependency>
-	
-	<dependency>
-		<groupId>javax.websocket</groupId>
-		<artifactId>javax.websocket-api</artifactId>
-	    <version>1.1</version>
-	
-	</dependency>
-	<dependency>
-	    <groupId>com.fasterxml.jackson.core</groupId>
-	    <artifactId>jackson-annotations</artifactId>
-	    <version>2.11.0</version>
-  </dependency>
-  	<dependency>
-		<groupId>com.google.code.gson</groupId>
-		<artifactId>gson</artifactId>
-		<version>2.8.5</version>
-	</dependency>
-	<!-- 파일 업로드 디펜던시 -->
-	 <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-            <version>1.3.2</version>
-        </dependency> <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.5</version>
-        </dependency>
-        
-	<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-webmvc</artifactId>
-		<version>4.1.6.RELEASE</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
-	<dependency>
-	    <groupId>org.springframework.security</groupId>
-	    <artifactId>spring-security-core</artifactId>
-	    <version>3.2.10.RELEASE</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
-	<dependency>
-	    <groupId>org.springframework.security</groupId>
-	    <artifactId>spring-security-web</artifactId>
-	    <version>3.2.10.RELEASE</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
-	<dependency>
-	    <groupId>org.springframework.security</groupId>
-	    <artifactId>spring-security-config</artifactId>
-	    <version>3.2.10.RELEASE</version>
-	</dependency>
-	
-	<!-- Email -->
-	<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
-	<dependency>
-	    <groupId>javax.mail</groupId>
-	    <artifactId>mail</artifactId>
-	    <version>1.4.6</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
-	<dependency>
-	    <groupId>org.springframework</groupId>
-	    <artifactId>spring-context-support</artifactId>
-	    <version>${org.springframework-version}</version>
-	</dependency>
-	<dependency>
-    	<groupId>com.sun.activation</groupId>
-    	<artifactId>javax.activation</artifactId>
-    	<version>1.2.0</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
-	<dependency>
-	    <groupId>org.webjars</groupId>
-	    <artifactId>bootstrap</artifactId>
-	    <version>5.0.1</version>
-	</dependency>
-			<!-- https://mvnrepository.com/artifact/org.python/jython -->
-	<dependency>
-	    <groupId>org.python</groupId>
-	    <artifactId>jython</artifactId>
-	    <version>2.7.3</version>
-	</dependency>
-			<!-- https://mvnrepository.com/artifact/jep/jep -->
-	<dependency>
-	    <groupId>jep</groupId>
-	    <artifactId>jep</artifactId>
-	    <version>2.24</version>
-	</dependency>
-				
-	<dependency>
-	    <groupId>org.apache.logging.log4j</groupId>
-	    <artifactId>log4j-api</artifactId>
-	    <version>2.0.1</version>
-	</dependency>
-	<dependency>
-	    <groupId>org.apache.logging.log4j</groupId>
-	    <artifactId>log4j-core</artifactId>
-	    <version>2.0.1</version>
-	</dependency>
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -165,21 +32,21 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
-		<!--  DATBABE -->
-			<!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
+		<!--  Database -->
+		<!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
 		<dependency>
 		    <groupId>com.zaxxer</groupId>
 		    <artifactId>HikariCP</artifactId>
 		    <version>2.7.4</version>
 		</dependency>
-				<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+
+		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
 		<dependency>
 		    <groupId>org.mybatis</groupId>
 		    <artifactId>mybatis</artifactId>
 		    <version>3.4.6</version>
 		</dependency>
-					<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
+		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
 		<dependency>
 		    <groupId>org.mybatis</groupId>
 		    <artifactId>mybatis-spring</artifactId>
@@ -209,7 +76,74 @@
 		    <artifactId>jackson-databind</artifactId>
 		    <version>2.9.4</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.8.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.dataformat</groupId>
+		    <artifactId>jackson-dataformat-xml</artifactId>
+		    <version>2.9.6</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
+		<dependency>
+		    <groupId>net.coobird</groupId>
+		    <artifactId>thumbnailator</artifactId>
+		    <version>0.4.8</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz</artifactId>
+		    <version>2.3.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz-jobs -->
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz-jobs</artifactId>
+		    <version>2.3.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-web</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-config</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-taglibs</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		<!-- File Upload -->
+		<dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.2</version>
+        </dependency> 
 
+		
+		
+		
+		
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -242,12 +176,19 @@
 			<version>${org.slf4j-version}</version>
 			<scope>runtime</scope>
 		</dependency>
-				<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-test</artifactId>
 		    <version>${org.springframework-version}</version>
 		    <scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.18.0</version>
+		    <scope>provided</scope>
 		</dependency>
 		
 		<dependency>
@@ -263,8 +204,8 @@
 			<version>1</version>
 		</dependency>
 				
-		<!-- Servlet  p172 -->
-			<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<!-- Servlet -->
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 		<dependency>
 		    <groupId>javax.servlet</groupId>
 		    <artifactId>javax.servlet-api</artifactId>
@@ -282,18 +223,6 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
-		<dependency>
-		    <groupId>com.google.code.gson</groupId>
-		    <artifactId>gson</artifactId>
-		    <version>2.8.2</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
-		<dependency>
-		    <groupId>com.fasterxml.jackson.dataformat</groupId>
-		    <artifactId>jackson-dataformat-xml</artifactId>
-		    <version>2.9.6</version>
 		</dependency>
 	
 		<!-- Test -->
