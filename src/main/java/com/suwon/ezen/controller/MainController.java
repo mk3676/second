@@ -1,5 +1,7 @@
 package com.suwon.ezen.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.suwon.ezen.mapper.DataMapper;
+import com.suwon.ezen.service.DataService;
 import com.suwon.ezen.vo.UserVO;
 
 import lombok.Setter;
@@ -16,7 +18,7 @@ import lombok.Setter;
 @RequestMapping("/main/*")
 public class MainController {
 	@Setter(onMethod_ = @Autowired)
-	private DataMapper mapper;
+	private DataService service;
 	
 	@GetMapping("/start")
 	public ModelAndView start(@RequestParam(required = false) String pointer) {
@@ -24,18 +26,31 @@ public class MainController {
 		System.out.println("pointer: " + pointer);
 		
 		if (pointer != null) {
-			System.out.println("여기 들어왔니?");
-			UserVO vo = mapper.getUserInfo(pointer);
-			model.addObject("info", vo);
+			System.out.println("포인터가 있는 경우");
+			model.addObject("pointer", pointer);
+			model.setViewName("redirect:/main/displayData");
 		}
-		model.setViewName("redirect:/main/displayData");
+		else {
+			model.setViewName("test");
+		}
 		
 		return model;
 	}
 	
 	@GetMapping("displayData")
-	public void displayData() {
+	public ModelAndView displayData(String pointer) {
+		System.out.println("displayData, pointer: " + pointer);
+		UserVO vo = service.getUserInfo(pointer);
 		
+		List<String> columnList =  service.getTiltColumn(vo.getTiltName());
+		columnList.remove("index");
+		columnList.remove("opdatetime");
+
+		ModelAndView model = new ModelAndView();
+		model.addObject("columnList", columnList);
+		model.setViewName("test");
+		
+		return model;
 	}
 	
 	@GetMapping("/index")
