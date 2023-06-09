@@ -13,4 +13,12 @@
 		SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = #{tiltName}
 	</select>
 
+	<!-- 전체 데이터 가져오기 -->
+	<select id="getTable" parameterType="list" resultType="hashmap">
+		select loc.DATE, loc.BATT, loc.TEMP,
+			<foreach item="col" collection="columnList" separator=",">
+				`${col}`
+			</foreach> from ${info.tiltName} as tilt inner join ${info.structureName} as loc
+			on tilt.opdatetime = loc.DATE
+	</select> 
 </mapper>
