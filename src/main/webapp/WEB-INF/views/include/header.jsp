@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!doctype html>
 <html class="no-js h-100" lang="ko">
 
@@ -52,4 +54,12 @@
 <script src="/resources/scripts/extras.1.1.0.min.js"></script>
 <script src="/resources/scripts/shards-dashboards.1.1.0.min.js"></script>
 <script src="/resources/scripts/app/app-blog-overview.1.1.0.js"></script>
+<!-- <script>
+  const canvasExists = document.getElementsByTagName('canvas').length > 0;
+  if (canvasExists) {
+    const script = document.createElement('script');
+    script.src = '/resources/scripts/app/app-blog-overview.1.1.0.js';
+    document.head.appendChild(script);
+  }
+</script>  -->
 <!-- End Script -->

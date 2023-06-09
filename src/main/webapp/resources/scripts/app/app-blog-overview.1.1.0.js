@@ -10,48 +10,47 @@
   $(document).ready(function () {
 
     // Blog overview date range init.
-    $('#blog-overview-date-range').datepicker({});
+    //$('#blog-overview-date-range').datepicker({});
 
     //
     // Blog Overview Users
     //
 
+	var data1_list= [123,150,200,300,500,400,800,210,700,800];
+	var data2_list= [50,60,70,80,90,100,115,80,130,160,300,77];
+	
     var bouCtx = document.getElementsByClassName('blog-overview-chart')[0];
-
-    // Data
+    
     var bouData = {
-      // Generate the days labels on the X axis.
       labels: Array.from(new Array(30), function (_, i) {
-        return i === 0 ? 1 : i;
+        return i === 0 ? 1 : i; 
       }),
-      datasets: [{
-        label: 'Current Month',
-        fill: 'start',
-        data: [500, 800, 320, 180, 240, 320, 230, 650, 590, 1200, 750, 940, 1420, 1200, 960, 1450, 1820, 2800, 2102, 1920, 3920, 3202, 3140, 2800, 3200, 3200, 3400, 2910, 3100, 4250],
-        backgroundColor: 'rgba(0,123,255,0.1)',
-        borderColor: 'rgba(0,123,255,1)',
-        pointBackgroundColor: '#ffffff',
-        pointHoverBackgroundColor: 'rgb(0,123,255)',
-        borderWidth: 1.5,
-        pointRadius: 0,
-        pointHoverRadius: 3
-      }, {
-        label: 'Past Month',
-        fill: 'start',
-        data: [380, 430, 120, 230, 410, 740, 472, 219, 391, 229, 400, 203, 301, 380, 291, 620, 700, 300, 630, 402, 320, 380, 289, 410, 300, 530, 630, 720, 780, 1200],
-        backgroundColor: 'rgba(255,65,105,0.1)',
-        borderColor: 'rgba(255,65,105,1)',
-        pointBackgroundColor: '#ffffff',
-        pointHoverBackgroundColor: 'rgba(255,65,105,1)',
-        borderDash: [3, 3],
-        borderWidth: 1,
-        pointRadius: 0,
-        pointHoverRadius: 2,
-        pointBorderColor: 'rgba(255,65,105,1)'
-      }]
-    };
-
-    // Options
+	  datasets: [{
+	      label: '경사 데이터',
+	      fill: 'start',
+	      data: data1_list,
+	      backgroundColor: 'rgba(0,123,255,0.1)',
+	      borderColor: 'rgba(0,123,255,1)',
+	      pointBackgroundColor: '#ffffff',
+	      pointHoverBackgroundColor: 'rgb(0,123,255)',
+	      borderWidth: 1.5,
+	      pointRadius: 0,
+	      pointHoverRadius: 3
+	    }, {
+	      label: '위치 데이터',
+	      fill: 'start',
+	      data: data2_list,
+	      backgroundColor: 'rgba(255,65,105,0.1)',
+	      borderColor: 'rgba(255,65,105,1)',
+	      pointBackgroundColor: '#ffffff',
+	      pointHoverBackgroundColor: 'rgba(255,65,105,1)',
+	      borderDash: [3, 3],	
+	      borderWidth: 1,
+	      pointRadius: 0,
+	      pointHoverRadius: 2,
+	      pointBorderColor: 'rgba(255,65,105,1)'
+	    }]
+  		  };
     var bouOptions = {
       responsive: true,
       legend: {
@@ -59,7 +58,6 @@
       },
       elements: {
         line: {
-          // A higher value makes the line look skewed at this ratio.
           tension: 0.3
         },
         point: {
@@ -68,31 +66,35 @@
       },
       scales: {
         xAxes: [{
-          gridLines: false,
+          scaleLabel: {
+        	  display: true,
+        	  labelString: '날짜'
+          },
+          gridLines: false, // grid 가 필요할때 지우자
           ticks: {
             callback: function (tick, index) {
-              // Jump every 7 values on the X axis labels to avoid clutter.
-              return index % 7 !== 0 ? '' : tick;
+              //return index % 7 !== 0 ? '' : tick;
+              return tick;
             }
           }
         }],
         yAxes: [{
+       	  scaleLabel: {
+         	  display: true,
+         	  labelString: '값'
+          },
+          gridLines: false, // grid 가 필요할때 지우자
           ticks: {
             suggestedMax: 45,
             callback: function (tick, index, ticks) {
               if (tick === 0) {
                 return tick;
               }
-              // Format the amounts using Ks for thousands.
               return tick > 999 ? (tick/ 1000).toFixed(1) + 'K' : tick;
             }
           }
         }]
       },
-      // Uncomment the next lines in order to disable the animations.
-      // animation: {
-      //   duration: 0
-      // },
       hover: {
         mode: 'nearest',
         intersect: false
@@ -103,22 +105,32 @@
         intersect: false
       }
     };
-
-    // Generate the Analytics Overview chart.
-    window.BlogOverviewUsers = new Chart(bouCtx, {
+	
+    window.BlogOverviewChart = new Chart(bouCtx, {
       type: 'LineWithLine',
       data: bouData,
       options: bouOptions
     });
 
-    // Hide initially the first and last analytics overview chart points.
-    // They can still be triggered on hover.
-    var aocMeta = BlogOverviewUsers.getDatasetMeta(0);
+    var aocMeta = BlogOverviewChart.getDatasetMeta(0);
     aocMeta.data[0]._model.radius = 0;
     aocMeta.data[bouData.datasets[0].data.length - 1]._model.radius = 0;
 
-    // Render the chart.
-    //window.BlogOverviewUsers.render();
+    window.BlogOverviewChart.render();
 
   });
-}); //(jQuery)
+})(jQuery);
+
+
+/*
+	'rgba(118,67,151,0.1)'  보라색 
+	'rgba(238,60,70,0.1)'   빨간색 
+	'rgba(14,112,98,0.1)'   청록색 
+	'rgba(88,224,255,0.1)'  하늘색 
+	'rgba(253,208,43,0.1)'  노란색 
+	'rgba(163,44,158,0.1)'  보라색 
+	'rgba(255,90,67,0.1)'   주황색
+	'rgba(197,225,165,0.1)' 연두색 
+	'rgba(45,124,233,0.1)'  파란색 
+	'rgba(255,65,105,0.1)'  분홍색 
+*/
