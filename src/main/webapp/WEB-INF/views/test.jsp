@@ -34,9 +34,9 @@
                 location.href = "/main/start?pointer=" + $("#pointer").val()
               });
 
-              $("#selection").click(function () {
-                console.log($('input[name="select"]:checked').val())
-              });
+              /*               $("#selection").click(function () {
+                              console.log($('input[name="select"]:checked').val())
+                            }); */
             });
           </script>
         </head>
@@ -57,12 +57,13 @@
           </form>
 
           <legend>열 선택</legend>
-          <div>
+          <!-- <div>
+            <form action="/main/displayContent"></form>
             <c:forEach var="list" items="${columnList}">
               <input type="checkbox" name="select" value="${list}">${list}
             </c:forEach>
             <input type="button" value="버튼" id="selection">
-          </div>
+          </div> -->
 
 
 
