@@ -53,13 +53,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
 <script src="/resources/scripts/extras.1.1.0.min.js"></script>
 <script src="/resources/scripts/shards-dashboards.1.1.0.min.js"></script>
-<script src="/resources/scripts/app/app-blog-overview.1.1.0.js"></script>
-<!-- <script>
-  const canvasExists = document.getElementsByTagName('canvas').length > 0;
-  if (canvasExists) {
+<!-- <script src="/resources/scripts/app/app-blog-overview.1.1.0.js"></script> -->
+<script>
+var currentLocation = window.location.pathname;
+if(currentLocation === '/main/second' || currentLocation === '/second'){
     const script = document.createElement('script');
+    script.type = 'text/javascript';
     script.src = '/resources/scripts/app/app-blog-overview.1.1.0.js';
     document.head.appendChild(script);
-  }
-</script>  -->
+}
+</script>
 <!-- End Script -->

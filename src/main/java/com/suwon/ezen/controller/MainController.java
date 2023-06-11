@@ -16,7 +16,7 @@ import com.suwon.ezen.vo.UserVO;
 import lombok.Setter;
 
 @RestController
-@RequestMapping("/main/*")
+@RequestMapping({ "/", "/main" })
 public class MainController {
 	@Setter(onMethod_ = @Autowired)
 	private DataService service;
@@ -78,6 +78,13 @@ public class MainController {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("/main/first");
 		
+		return model;
+	}
+	
+	@GetMapping("/test")
+	public ModelAndView test() {
+		ModelAndView model = new ModelAndView();
+		model.setViewName("/main/test");
 		return model;
 	}
 }

@@ -11,9 +11,7 @@
 <!-- Script -->
 <script>
 $(document).ready(function(){
-	$('#register').click(function(){
-		$('.modal').modal('show')
-	})
+	
     $("#submitButton").click(function () {
         console.log("클릭함")
         var data = $("#insert")[0]
@@ -84,11 +82,6 @@ $(document).ready(function(){
 				
         		<!-- Button -->
         		<div class="col-lg-4">
-					<div class="card mb-3">
-						<div class="card-body pt-3 pb-3">
-							<button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-secondary col-lg-12 mb-0 btn-lg btn-block">등 록</button>
-						</div>
-					</div>
 					<div class="card">
 						<div class="card-header pt-3 pb-3">
 							<h5 class="card-title mb-0">차트 데이터 선택</h5>
@@ -194,69 +187,5 @@ $(document).ready(function(){
 	</div>
 </body>
 <!-- End Body -->
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-xl">
-  	<form id="insert" enctype="multipart/form-data">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <!-- Modal Header -->
-	        <div class="page-header row no-gutters py-4">
-			  <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
-			    <span class="text-uppercase page-subtitle">Register</span>
-			    <h3 class="page-title text-bold">등록 페이지</h3>
-			  </div>
-			</div>
-			<!-- End Modal Header -->
-	      </div>
-	      <div class="modal-body">
-			<!-- Modal Body -->
-			<div class="container-fluid p-0">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="card">
-							<div class="card-body pt-3 pb-0"> 
-								<label for="name" class="col-lg-4">성명</label>
-								<input type="text" class="col-lg-6" name="name" placeholder="성명">
-							</div>
-							<div class="card-body pt-3 pb-0">
-								<label for="phone" class="col-lg-4">전화번호</label>
-								<input type="tel" class="col-lg-6" name="phone" placeholder="전화번호">
-							</div>
-							<div class="card-body pt-3 pb-0">
-								<label for="email" class="col-lg-4">이메일주소</label>
-								<input type="email" class="col-lg-6" name="email" placeholder="이메일 주소">
-							</div>
-							<div class="card-body pt-3 pb-3">
-								<label for="password" class="col-lg-4">비밀번호</label>
-								<input type="password" class="col-lg-6" name="password" placeholder="비밀번호">
-							</div>
-						</div>
-						<div class="card">
-							<div class="card-body pt-3 pb-0">
-								<label for="uploadFile" class="col-lg-3"><b>파일첨부</b></label>
-								<input type="file" class="col-lg-8" name="file[]" multiple>
-								<span class="col-lg-12">파일첨부시 확장자가 'tilt'인 것과</span><br>
-								<span class="col-lg-12">아닌 것 으로 구분하세요</span>
-								<div class="uploadResult" id="uploadResult">
-									<ul></ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- End Modal Body -->
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-	        <button type="button" class="btn btn-primary" id="submitButton">저장</button>
-	      </div>
-	    </div>
-    </form>
-  </div>
-</div>
-<!-- End Modal -->
 
 <%@ include file="../include/footer.jsp" %>
