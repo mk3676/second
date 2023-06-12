@@ -36,6 +36,7 @@ $(document).ready(function(){
 	$(".input-group-append").click(function(){
     	var startDate = $("#blog-overview-date-range-1").val()
     	var endDate = $("#blog-overview-date-range-2").val()
+    	
     	console.log("버튼이눌렸어", startDate, endDate)
     })
     

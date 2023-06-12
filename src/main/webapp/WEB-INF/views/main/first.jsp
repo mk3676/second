@@ -1,10 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="../include/header.jsp" %>
 
 <!-- Style -->
 <style>
 span.badge.bg-success {
-	cursor:pointer;}
+	cursor: pointer;}
+.pagination a {
+	margin: 0 5px;
+	color: #333;
+	text-decoration: none;
+	padding: 5px 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;}
+.pagination a.active {
+	background-color: #333;
+	color: #fff;}
+.pageClass {
+	display: "inline";}
 </style>
 <!-- End Style -->
 
@@ -26,30 +38,9 @@ $(document).ready(function(){
 </script>
 <!-- End Script -->
 
-<!-- Page Header -->
-<div class="page-header row no-gutters py-4">
-  <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-    <span class="text-uppercase page-subtitle">first</span>
-    <h3 class="page-title text-bold">초기 화면</h3>
-  </div>
-</div>
-<!-- End Page Header -->
-
 <!-- Body -->
 <body>
 <div class="container-fluid p-0">
-
-	<!-- Button -->
-	<div class="clearfix pl-3 pr-3">
-		<div class="col-lg-4 float-right">
-			<div class="card mb-3">
-				<div class="card-body pt-3 pb-3">
-					<button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-secondary col-lg-12 mb-0 btn-lg btn-block">등 록</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<!-- List -->
 	<div class="row pl-3 pr-3">
 		<div class="col-12 col-lg-12 col-xxl-12 d-flex">
@@ -57,43 +48,72 @@ $(document).ready(function(){
 				<div class="card-header pl-3">
 					<h5 class="mb-0">데이터</h5>
 				</div>
-				
+
 				<table class="table table-hover my-0">
 					<thead>
 						<tr>
 							<th>번호</th>
-							<th>제목</th>
 							<th>작성자</th>
+							<th>이메일</th>
 							<th>작성일</th>
 							<th>상태</th>
 						</tr>
 					</thead>
 					<tbody>
-						<!-- forEach -->
-						<tr class="toggle-class">
-							<td>(번호)</td>
-							<td>(제목)</td>
-							<td>(작성자)</td>
-							<td>(작성일)</td>
-							<td>
-								<!-- c:choose (값이 들어오는거에 따라 변경) -->
-								<!-- c:when ${list == "열람가능"} -->
-								<span class="badge bg-success" data-toggle="modal" data-target="#pwdModal">열람가능</span>
-								<!-- c:when ${list == "수정중"} -->
-								<span class="badge bg-warning">수정중</span>
-								<!-- c:when ${list == "열람불가"} -->
-								<span class="badge bg-danger">열람불가</span>
-								<!-- End c:choose -->
-							</td>
-						</tr>
-						<!-- End forEach -->
+						<c:forEach var="list" items="${list}">
+							<tr>
+								<td>${list.cnt}</td>
+								<td>${list.username}</td>
+								<td>${list.email}</td>
+								<td>
+									<fmt:formatDate pattern="yyyy년 M월 d일 hh시 m분" value="${list.creDate}" />
+								</td>
+								<td>
+									<c:choose>
+										<c:when test="${list.status eq '열람가능'}">
+											<span class="badge bg-success">열람가능</span>
+										</c:when>
+										<c:when test="${list.status eq '수정중'}">
+											<span class="badge bg-warning">수정중</span>
+										</c:when>
+										<c:when test="${list.status eq '열람불가'}">
+											<span class="badge bg-danger">열람불가</span>
+										</c:when>
+									</c:choose>
+								</td>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>
 		</div>
 		<div class="col-12 col-lg-12 col-xxl-12 text-center ">
 			<div class="card">
-				<!-- 페이징 처리  1,2,3,4,.....  -->
+				<div class=" pagination">
+					<c:if test="${paging.prev}">
+						<c:set var="prevPage" value="${paging.startNum-1}" />
+						<a href="/main/first?pageNum=${prevPage}" class="pageClass"></a>
+					</c:if>
+
+					<c:forEach begin="${paging.startNum}"
+						end="${paging.startNum+9 > paging.lastNum ? paging.lastNum : paging.startNum+9}" var="page">
+						<c:choose>
+							<c:when test="${page ne paging.pageNum}">
+								<a style="cursor:pointer;" class="pageClass" href="/main/first?pageNum=${page}">${page}</a>
+							</c:when>
+							<c:when test="${page eq paging.pageNum}">
+								<a style="cursor:pointer; background-color: #cfe2f3;" class="pageClass"
+									href="/main/first?pageNum=${page}&">${page}</a>
+							</c:when>
+						</c:choose>
+
+					</c:forEach>
+
+					<c:if test="${paging.next}">
+						<c:set var="nextPage" value="${paging.startNum+10}" />
+						<a class="pageClass" href="/main/first?pageNum=${nextPage}"></a>
+					</c:if>
+				</div>
 			</div>
 		</div>
 	</div>
