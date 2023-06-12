@@ -15,5 +15,11 @@ public interface DataMapper {
 	public List<String> getTiltColumn(String tiltName);
 	
 	// 전체 데이터 가져오기
-	public List<Map<String, String>> getTable(@Param("info") UserVO info, @Param("columnList") List<String> columnList);
+	public List<Map<String, Object>> getTable(@Param("info") UserVO info, @Param("columnList") List<String> columnList);
+	
+	// userinfo 전체 데이터의 갯수 가져오기
+	public int getCountUserInfo();
+	
+	// userinfo 전체 데이터 가져오기
+	public List<UserVO> getAllUserInfo(int offset);
 }

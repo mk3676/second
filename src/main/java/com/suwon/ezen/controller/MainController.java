@@ -1,8 +1,10 @@
 package com.suwon.ezen.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.suwon.ezen.service.DataService;
+import com.suwon.ezen.vo.Paging;
 import com.suwon.ezen.vo.UserVO;
 
 import lombok.Setter;
@@ -51,14 +54,15 @@ public class MainController {
 			System.out.println(str);
 		}
 
-		List<Map<String, String>> mapList = service.getTable(vo, columnList);
-		for (Map<String, String> map: mapList) {
-			System.out.println("!!!!!!!" + map.keySet());
-		}
-		System.out.println(service.getTable(vo, columnList));
-		
-		ModelAndView model = new ModelAndView();
+		List<Map<String, Object>> mapList = service.getTable(vo, columnList);
+		List<String> key = new ArrayList<>();
+		key.addAll(mapList.get(0).keySet());
 
+		for (String str: key) {
+			System.out.println("키값: " + str);
+		}
+		ModelAndView model = new ModelAndView();
+		model.addObject("list", mapList);
 		model.setViewName("test");
 		
 		return model;
@@ -74,8 +78,15 @@ public class MainController {
 	}
 	
 	@GetMapping("/first")
-	public ModelAndView register() {
+	public ModelAndView register(@Param("pageNum") Integer pageNum) {
 		ModelAndView model = new ModelAndView();
+		Paging paging = new Paging(service.getCountUserInfo(), pageNum);
+		List<UserVO> userList = service.getAllUserInfo(paging.getOffset());
+		
+		for (UserVO vo: userList) {
+			System.out.println("리스트: " + vo);
+		}
+		model.addObject("list", userList);
 		model.setViewName("/main/first");
 		
 		return model;

@@ -56,7 +56,6 @@
             <input type="button" value="pointerButton" id="pointerButton">
           </form>
 
-          <legend>열 선택</legend>
           <!-- <div>
             <form action="/main/displayContent"></form>
             <c:forEach var="list" items="${columnList}">
@@ -65,7 +64,9 @@
             <input type="button" value="버튼" id="selection">
           </div> -->
 
-
+			<c:forEach var="list" items="${list}">
+				${list["tilt-01"]}
+			</c:forEach>
 
 
         </body>

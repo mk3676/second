@@ -90,11 +90,11 @@ def insertInfo(info, key, flag):
 
     if flag == "false":
         sql += "insert into userInfo values(null, '" + info["name"] + "', '" + info["phone"] + "', '" + info[
-            "email"] + "', '" + info["password"] + "', null, '" + key + "_loc', '" + key + "_tilt', '" + key + "')"
+            "email"] + "', '" + info["password"] + "', null, '" + key + "_loc', '" + key + "_tilt', '" + key + "', '열람가능', now())"
         print("이미지 없음")
     elif flag == "true":
         sql += "insert into userInfo values(null, '" + info["name"] + "', '" + info["phone"] + "', '" + info[
-            "email"] + "', '" + info["password"] + "', '" + key + "', '" + key + "_loc', '" + key + "_tilt', '" + key + "')"
+            "email"] + "', '" + info["password"] + "', '" + key + "', '" + key + "_loc', '" + key + "_tilt', '" + key + "', '열람가능', now())"
         print("이미지 있음")
 
     db.execute(sql)

@@ -34,10 +34,26 @@ public class DataServiceImpl implements DataService {
 
 	// 전체 데이터 가져오기
 	@Override
-	public List<Map<String, String>> getTable(UserVO info, List<String> columnList) {
-		List<Map<String, String>> map = mapper.getTable(info, columnList);
+	public List<Map<String, Object>> getTable(UserVO info, List<String> columnList) {
+		List<Map<String, Object>> map = mapper.getTable(info, columnList);
 		
 		return map;
+	}
+
+	// userinfo 전체 데이터의 갯수 가져오기
+	@Override
+	public int getCountUserInfo() {
+		int result = mapper.getCountUserInfo();
+		
+		return result;
+	}
+	
+	// userinfo 전체 데이터 가져오기
+	@Override
+	public List<UserVO> getAllUserInfo(int offset) {
+		List<UserVO> result = mapper.getAllUserInfo(offset);
+		
+		return result;
 	}
 
 }
