@@ -26,4 +26,6 @@ public interface DataService {
 	// 테이블에서 password 만 가져오기
 	public String getPassword(String tiltName);
 
+	// 전체 데이터의 갯수 가져오기
+	public int getCountTilt(@Param("info") UserVO info);
 }

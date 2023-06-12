@@ -3,6 +3,7 @@ package com.suwon.ezen.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,5 +62,13 @@ public class DataServiceImpl implements DataService {
 	public String getPassword(String tiltName) {
 		
 		return mapper.getPassword(tiltName);
+	}
+
+	// 전체 데이터의 갯수 가져오기
+	@Override
+	public int getCountTilt(UserVO info) {
+		int result = mapper.getCountTilt(info);
+		
+		return result;
 	}
 }
