@@ -20,7 +20,7 @@ public class Paging {
 		
 		this.lastNum = (int) (Math.ceil(total / (double) this.amount));
 		
-		if (pageNum == null) this.startNum = 1;
+		if (pageNum == null || pageNum ==0) this.startNum = 1;
 		else this.startNum = (int)((this.pageNum * 0.1) - 0.1) * 10 + 1;
 			
 		if (this.startNum > 10) this.prev = true;
@@ -30,7 +30,7 @@ public class Paging {
 			this.next=true;
 		}
 		
-		if (this.pageNum == null) this.offset = 0;
+		if (this.pageNum == null || this.pageNum ==0) this.offset = 0;
 		else this.offset = (this.pageNum - 1) * this.amount;
 		
 		

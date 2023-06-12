@@ -92,12 +92,14 @@ public class MainController {
 		ModelAndView model = new ModelAndView();
 		Paging paging = new Paging(service.getCountUserInfo(), pageNum);
 		List<UserVO> userList = service.getAllUserInfo(paging.getOffset());
-	
+
 		for (UserVO vo: userList) {
 			System.out.println("리스트: " + vo);
 		}
+		System.out.println("paging값: "+paging);
 		model.addObject("list", userList);
 		model.addObject("paging", paging);
+
 		model.setViewName("/main/first");
 		
 		return model;
