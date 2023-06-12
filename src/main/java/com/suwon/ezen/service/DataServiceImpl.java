@@ -55,5 +55,11 @@ public class DataServiceImpl implements DataService {
 		
 		return result;
 	}
-
+	
+	// 테이블에서 password 만 가져오기
+	@Override
+	public String getPassword(String tiltName) {
+		
+		return mapper.getPassword(tiltName);
+	}
 }

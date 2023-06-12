@@ -22,4 +22,8 @@ public interface DataService {
 	
 	// userinfo 전체 데이터 가져오기
 	public List<UserVO> getAllUserInfo(int offset);
+
+	// 테이블에서 password 만 가져오기
+	public String getPassword(String tiltName);
+
 }

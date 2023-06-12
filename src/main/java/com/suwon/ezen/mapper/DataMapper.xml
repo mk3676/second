@@ -10,7 +10,7 @@
 	
 	<!-- 사용자의 tilt 테이블에서 column명 가져오기 -->
 	<select id="getTiltColumn" resultType="String" parameterType="String">
-		SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = #{tiltName}
+		SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = #{tiltName} ORDER BY COLUMN_NAME DESC
 	</select>
 
 	<!-- 전체 데이터 가져오기 -->
@@ -30,5 +30,10 @@
 	<!-- userinfo 전체 데이터 가져오기 -->
 	<select id="getAllUserInfo" resultType="com.suwon.ezen.vo.UserVO">
 		select * from userInfo limit 10 offset #{offset}
+	</select>
+	
+	<!-- password 만 가져오기 -->
+	<select id="getPassword" parameterType="String" resultType="String">
+		select pwd from userInfo where tiltName = #{tiltName}
 	</select>
 </mapper>

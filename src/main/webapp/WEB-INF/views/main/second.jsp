@@ -5,15 +5,16 @@
 <style>
 .input-group-append {
 	cursor:pointer;}
+.badge {
+	cursor:pointer;
+	user-select: none;}
 </style>
 <!-- End Style -->
 
 <!-- Script -->
 <script>
 $(document).ready(function(){
-	$('#register').click(function(){
-		$('.modal').modal('show')
-	})
+	
     $("#submitButton").click(function () {
         console.log("클릭함")
         var data = $("#insert")[0]
@@ -31,7 +32,7 @@ $(document).ready(function(){
           }
         });
     });
-	
+    
 	$(".input-group-append").click(function(){
     	var startDate = $("#blog-overview-date-range-1").val()
     	var endDate = $("#blog-overview-date-range-2").val()
@@ -39,6 +40,26 @@ $(document).ready(function(){
     	console.log("버튼이눌렸어", startDate, endDate)
     })
     
+    let currentBadgeIndex = 0;
+	$(".selecting-badge").on("click", () => {
+	  switch (currentBadgeIndex++ % 3) {
+	    case 0:
+	      $(".selecting-badge").html('<span class="badge bg-warning">수정중</span>');
+	      break;
+	    case 1:
+	      $(".selecting-badge").html('<span class="badge bg-danger">열람불가</span>');
+	      break;
+	    case 2:
+	      $(".selecting-badge").html('<span class="badge bg-success">열람가능</span>');
+	      break;
+	    default:
+	      break;
+	  }
+	  
+	  // ajax
+	});
+    
+	
 })
 </script>
 <!-- End Script -->
@@ -57,6 +78,88 @@ $(document).ready(function(){
 	<div class="container-fluid">
 		<div class="main-content-container container-fluid px-4">
 			<div class="row">
+				<!-- Small Stats Blocks -->
+			    <div class="row col-12">
+			      <div class="col-lg col-md-6 col-sm-6 mb-4">
+			        <div class="stats-small stats-small--1 card card-small">
+			          <div class="card-body p-0 d-flex">
+			            <div class="d-flex flex-column m-auto">
+			              <div class="stats-small__data text-center">
+			                <span class="stats-small__label text-uppercase">데이터 갯수</span>
+			                <h6 class="stats-small__value count my-3">2,390</h6>
+			              </div>
+			            </div>
+			          </div>
+			        </div>
+			      </div>
+			      <div class="col-lg col-md-6 col-sm-6 mb-4">
+			        <div class="stats-small stats-small--1 card card-small">
+			          <div class="card-body p-0 d-flex">
+			            <div class="d-flex flex-column m-auto">
+			              <div class="stats-small__data text-center">
+			                <span class="stats-small__label text-uppercase">경사 평균</span>
+			                <h6 class="stats-small__value count my-3">182</h6>
+			              </div>
+			            </div>
+			          </div>
+			        </div>
+			      </div>
+			      <div class="col-lg col-md-4 col-sm-6 mb-4">
+			        <div class="stats-small stats-small--1 card card-small">
+			          <div class="card-body p-0 d-flex">
+			            <div class="d-flex flex-column m-auto">
+			              <div class="stats-small__data text-center">
+			                <span class="stats-small__label text-uppercase">배터리 평균</span>
+			                <h6 class="stats-small__value count my-3">8,147</h6>
+			              </div>
+			            </div>
+			          </div>
+			        </div>
+			      </div>
+			      <div class="col-lg col-md-4 col-sm-6 mb-4">
+			        <div class="stats-small stats-small--1 card card-small">
+			          <div class="card-body p-0 d-flex">
+			            <div class="d-flex flex-column m-auto">
+			              <div class="stats-small__data text-center">
+			                <span class="stats-small__label text-uppercase">온도 평균</span>
+			                <h6 class="stats-small__value count my-3">2,413</h6>
+			              </div>
+			            </div>
+			          </div>
+			        </div>
+			      </div>
+			      <div class="col-lg col-md-4 col-sm-12 mb-4">
+			        <div class="stats-small stats-small--1 card card-small">
+			          <div class="card-body p-0 d-flex">
+			            <div class="d-flex flex-column m-auto">
+			              <div class="stats-small__data text-center">
+			                <span class="stats-small__label text-uppercase">보고서 출력</span>
+			                <div class="stats-small__value">
+			                	<span class="badge bg-info">보고서</span>
+			                </div>
+			              </div>
+			            </div>
+			          </div>
+			        </div>
+			      </div>
+			      <div class="col-lg col-md-4 col-sm-6 mb-4">
+			        <div class="stats-small stats-small--1 card card-small">
+			          <div class="card-body p-0 d-flex">
+			            <div class="d-flex flex-column m-auto">
+			              <div class="stats-small__data text-center">
+			                <span class="stats-small__label text-uppercase">상태 변경</span>
+			                <div class="selecting-badge stats-small__value">
+			                	<span class="badge bg-success">열람가능</span>
+			                </div>
+			              </div>
+			            </div>
+			          </div>
+			        </div>
+			      </div>
+			    </div>
+			    <!-- End Small Stats Blocks -->
+			    
+			
 				<!-- Chart Stats -->
 				<div class="col-lg-8 col-md-12 col-sm-12 mb-4">
 					<div class="card card-small">
@@ -64,19 +167,6 @@ $(document).ready(function(){
 							<h5 class="m-0">차트</h5>
 						</div>
 						<div class="card-body pt-0">
-							<div class="row border-bottom py-2 bg-light">
-								<div class="col-12 col-sm-6">
-									<div id="blog-overview-date-range" class="input-daterange input-group input-group-sm my-auto ml-auto mr-auto ml-sm-auto mr-sm-0" style="max-width: 350px;">
-										<input type="text" class="input-sm form-control" name="start" placeholder="Start Date" id="blog-overview-date-range-1">
-										<input type="text" class="input-sm form-control" name="end" placeholder="End Date" id="blog-overview-date-range-2">
-										<span class="input-group-append">
-											<span class="input-group-text">
-												<i class="material-icons"></i>
-											</span>
-										</span>
-									</div>
-								</div>
-							</div>
 							<canvas height="130" style="max-width: 100% !important;" class="blog-overview-chart"></canvas>
 						</div>
 					</div>
@@ -85,11 +175,6 @@ $(document).ready(function(){
 				
         		<!-- Button -->
         		<div class="col-lg-4">
-					<div class="card mb-3">
-						<div class="card-body pt-3 pb-3">
-							<button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-secondary col-lg-12 mb-0 btn-lg btn-block">등 록</button>
-						</div>
-					</div>
 					<div class="card">
 						<div class="card-header pt-3 pb-3">
 							<h5 class="card-title mb-0">차트 데이터 선택</h5>
@@ -195,69 +280,5 @@ $(document).ready(function(){
 	</div>
 </body>
 <!-- End Body -->
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-xl">
-  	<form id="insert" enctype="multipart/form-data">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <!-- Modal Header -->
-	        <div class="page-header row no-gutters py-4">
-			  <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
-			    <span class="text-uppercase page-subtitle">Register</span>
-			    <h3 class="page-title text-bold">등록 페이지</h3>
-			  </div>
-			</div>
-			<!-- End Modal Header -->
-	      </div>
-	      <div class="modal-body">
-			<!-- Modal Body -->
-			<div class="container-fluid p-0">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="card">
-							<div class="card-body pt-3 pb-0"> 
-								<label for="name" class="col-lg-4">성명</label>
-								<input type="text" class="col-lg-6" name="name" placeholder="성명">
-							</div>
-							<div class="card-body pt-3 pb-0">
-								<label for="phone" class="col-lg-4">전화번호</label>
-								<input type="tel" class="col-lg-6" name="phone" placeholder="전화번호">
-							</div>
-							<div class="card-body pt-3 pb-0">
-								<label for="email" class="col-lg-4">이메일주소</label>
-								<input type="email" class="col-lg-6" name="email" placeholder="이메일 주소">
-							</div>
-							<div class="card-body pt-3 pb-3">
-								<label for="password" class="col-lg-4">비밀번호</label>
-								<input type="password" class="col-lg-6" name="password" placeholder="비밀번호">
-							</div>
-						</div>
-						<div class="card">
-							<div class="card-body pt-3 pb-0">
-								<label for="uploadFile" class="col-lg-3"><b>파일첨부</b></label>
-								<input type="file" class="col-lg-8" name="file[]" multiple>
-								<span class="col-lg-12">파일첨부시 확장자가 'tilt'인 것과</span><br>
-								<span class="col-lg-12">아닌 것 으로 구분하세요</span>
-								<div class="uploadResult" id="uploadResult">
-									<ul></ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- End Modal Body -->
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-	        <button type="button" class="btn btn-primary" id="submitButton">저장</button>
-	      </div>
-	    </div>
-    </form>
-  </div>
-</div>
-<!-- End Modal -->
 
 <%@ include file="../include/footer.jsp" %>

@@ -9,15 +9,21 @@
 (function ($) {
   $(document).ready(function () {
 
-    // Blog overview date range init.
-    //$('#blog-overview-date-range').datepicker({});
-
     //
     // Blog Overview Users
     //
 
 	var data1_list= [123,150,200,300,500,400,800,210,700,800];
 	var data2_list= [50,60,70,80,90,100,115,80,130,160,300,77];
+	
+	var buttons = document.getElementsByClassName('myButton');
+	Array.from(buttons).forEach(function(button, idx){
+	  button.addEventListener('click', function() {
+	    $(this).toggleClass('btn-light');
+	    bouData.datasets[idx].hidden = !bouData.datasets[idx].hidden;
+	    BlogOverviewChart.update();
+	  });
+	});
 	
     var bouCtx = document.getElementsByClassName('blog-overview-chart')[0];
     

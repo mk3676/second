@@ -19,7 +19,7 @@ import com.suwon.ezen.vo.UserVO;
 import lombok.Setter;
 
 @RestController
-@RequestMapping("/main/*")
+@RequestMapping({ "/", "/main" })
 public class MainController {
 	@Setter(onMethod_ = @Autowired)
 	private DataService service;
@@ -91,4 +91,22 @@ public class MainController {
 		
 		return model;
 	}
+	
+	@GetMapping("/test")
+	public ModelAndView test() {
+		ModelAndView model = new ModelAndView();
+		model.setViewName("/main/test");
+		return model;
+	}
+	
+	@GetMapping("/pwdCheck")
+	public int pwdCheck(UserVO vo) {
+		var originPwd = service.getPassword(vo.getTiltName());
+		if(originPwd.equals(vo.getPwd())) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+	
 }
