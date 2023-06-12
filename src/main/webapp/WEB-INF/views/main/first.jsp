@@ -16,6 +16,12 @@ $(document).ready(function(){
 			console.log(idx+"번째 버튼이 눌렸어요")
 		})
 	})
+	
+	$("#checkOK").click(function(){
+		console.log("열람버튼이 눌렸어")
+		let pwd = $(".checkOK").val()
+		console.log(pwd)
+	})
 })
 </script>
 <!-- End Script -->
@@ -33,96 +39,9 @@ $(document).ready(function(){
 <body>
 <div class="container-fluid p-0">
 
-
 	<!-- Button -->
-	<div class="row pl-3 pr-3">
-		<div class="col-lg-8">
-			    <!-- Small Stats Blocks -->
-    <div class="row">
-      <div class="col-lg col-md-6 col-sm-6 mb-4">
-        <div class="stats-small stats-small--1 card card-small">
-          <div class="card-body p-0 d-flex">
-            <div class="d-flex flex-column m-auto">
-              <div class="stats-small__data text-center">
-                <span class="stats-small__label text-uppercase">Posts</span>
-                <h6 class="stats-small__value count my-3">2,390</h6>
-              </div>
-              <div class="stats-small__data">
-                <span class="stats-small__percentage stats-small__percentage--increase">4.7%</span>
-              </div>
-            </div>
-            <canvas height="120" class="blog-overview-stats-small-1"></canvas>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg col-md-6 col-sm-6 mb-4">
-        <div class="stats-small stats-small--1 card card-small">
-          <div class="card-body p-0 d-flex">
-            <div class="d-flex flex-column m-auto">
-              <div class="stats-small__data text-center">
-                <span class="stats-small__label text-uppercase">Pages</span>
-                <h6 class="stats-small__value count my-3">182</h6>
-              </div>
-              <div class="stats-small__data">
-                <span class="stats-small__percentage stats-small__percentage--increase">12.4%</span>
-              </div>
-            </div>
-            <canvas height="120" class="blog-overview-stats-small-2"></canvas>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg col-md-4 col-sm-6 mb-4">
-        <div class="stats-small stats-small--1 card card-small">
-          <div class="card-body p-0 d-flex">
-            <div class="d-flex flex-column m-auto">
-              <div class="stats-small__data text-center">
-                <span class="stats-small__label text-uppercase">Comments</span>
-                <h6 class="stats-small__value count my-3">8,147</h6>
-              </div>
-              <div class="stats-small__data">
-                <span class="stats-small__percentage stats-small__percentage--decrease">3.8%</span>
-              </div>
-            </div>
-            <canvas height="120" class="blog-overview-stats-small-3"></canvas>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg col-md-4 col-sm-6 mb-4">
-        <div class="stats-small stats-small--1 card card-small">
-          <div class="card-body p-0 d-flex">
-            <div class="d-flex flex-column m-auto">
-              <div class="stats-small__data text-center">
-                <span class="stats-small__label text-uppercase">Users</span>
-                <h6 class="stats-small__value count my-3">2,413</h6>
-              </div>
-              <div class="stats-small__data">
-                <span class="stats-small__percentage stats-small__percentage--increase">12.4%</span>
-              </div>
-            </div>
-            <canvas height="120" class="blog-overview-stats-small-4"></canvas>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg col-md-4 col-sm-12 mb-4">
-        <div class="stats-small stats-small--1 card card-small">
-          <div class="card-body p-0 d-flex">
-            <div class="d-flex flex-column m-auto">
-              <div class="stats-small__data text-center">
-                <span class="stats-small__label text-uppercase">Subscribers</span>
-                <h6 class="stats-small__value count my-3">17,281</h6>
-              </div>
-              <div class="stats-small__data">
-                <span class="stats-small__percentage stats-small__percentage--decrease">2.4%</span>
-              </div>
-            </div>
-            <canvas height="120" class="blog-overview-stats-small-5"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End Small Stats Blocks -->
-		</div>
-		<div class="col-lg-4">
+	<div class="clearfix pl-3 pr-3">
+		<div class="col-lg-4 float-right">
 			<div class="card mb-3">
 				<div class="card-body pt-3 pb-3">
 					<button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-secondary col-lg-12 mb-0 btn-lg btn-block">등 록</button>
@@ -151,15 +70,18 @@ $(document).ready(function(){
 					</thead>
 					<tbody>
 						<!-- forEach -->
-						<tr>
+						<tr class="toggle-class">
 							<td>(번호)</td>
 							<td>(제목)</td>
 							<td>(작성자)</td>
 							<td>(작성일)</td>
 							<td>
 								<!-- c:choose (값이 들어오는거에 따라 변경) -->
+								<!-- c:when ${list == "열람가능"} -->
 								<span class="badge bg-success" data-toggle="modal" data-target="#pwdModal">열람가능</span>
+								<!-- c:when ${list == "수정중"} -->
 								<span class="badge bg-warning">수정중</span>
+								<!-- c:when ${list == "열람불가"} -->
 								<span class="badge bg-danger">열람불가</span>
 								<!-- End c:choose -->
 							</td>
@@ -237,7 +159,7 @@ $(document).ready(function(){
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-	        <button type="button" class="btn btn-primary" id="submitButton">저장</button>
+	        <button type="button" class="btn btn-primary" id="submitButton">등록</button>
 	      </div>
 	    </div>
     </form>
@@ -266,7 +188,7 @@ $(document).ready(function(){
 				<div class="row">
 					<div class="col-lg-12 align-center">
 						<label for="password" class="col-lg-3">비밀번호</label>
-						<input type="password" class="col-lg-6" name="password" placeholder="비밀번호">
+						<input type="password" class="col-lg-6 checkOK" name="password" placeholder="비밀번호">
 						<button type="button" class="btn btn-primary col-lg-2" id="checkOK">열람</button>
 					</div>
 				</div>

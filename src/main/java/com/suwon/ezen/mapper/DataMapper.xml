@@ -21,4 +21,9 @@
 			</foreach> from ${info.tiltName} as tilt inner join ${info.structureName} as loc
 			on tilt.opdatetime = loc.DATE
 	</select> 
+	
+	<!-- password 만 가져오기 -->
+	<select id="getPassword" parameterType="String" resultType="String">
+		select pwd from userInfo where tiltName = #{tiltName}
+	</select>
 </mapper>

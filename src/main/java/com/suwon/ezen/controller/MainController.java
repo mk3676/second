@@ -87,4 +87,15 @@ public class MainController {
 		model.setViewName("/main/test");
 		return model;
 	}
+	
+	@GetMapping("/pwdCheck")
+	public int pwdCheck(UserVO vo) {
+		var originPwd = service.getPassword(vo.getTiltName());
+		if(originPwd.equals(vo.getPwd())) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+	
 }

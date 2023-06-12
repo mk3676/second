@@ -9,9 +9,6 @@
 (function ($) {
   $(document).ready(function () {
 
-    // Blog overview date range init.
-    $('#blog-overview-date-range').datepicker({});
-
     //
     // Blog Overview Users
     //

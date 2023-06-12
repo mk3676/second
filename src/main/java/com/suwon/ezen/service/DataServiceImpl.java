@@ -40,4 +40,10 @@ public class DataServiceImpl implements DataService {
 		return map;
 	}
 
+	@Override
+	public String getPassword(String tiltName) {
+		
+		return mapper.getPassword(tiltName);
+	}
+
 }
