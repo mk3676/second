@@ -1,6 +1,7 @@
 package com.suwon.ezen.controller;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -41,28 +42,37 @@ public class MainController {
 		return model;
 	}
 	
-	@GetMapping("displayColumn")
-	public ModelAndView displayColumn(String pointer) {
+	@GetMapping("/displayColumn")
+	public ModelAndView displayColumn(@RequestParam(value = "pageNum", required = false) Integer pageNum, @RequestParam String pointer) {
 		System.out.println("displayColumn, pointer: " + pointer);
+		// 사옹자 데이터 가져오기
 		UserVO vo = service.getUserInfo(pointer);
 		
+		// 사용자 테이블(tilt + structure) 속성 가져오기(index, opdatetime 제거)
 		List<String> columnList =  service.getTiltColumn(vo.getTiltName());
 		columnList.remove("index");
 		columnList.remove("opdatetime");
-	
-		for (String str: columnList) {
-			System.out.println(str);
-		}
 
+		// 사용자 테이블(tilt + structure) 전체 가져오기
 		List<Map<String, Object>> mapList = service.getTable(vo, columnList);
-		List<String> key = new ArrayList<>();
-		key.addAll(mapList.get(0).keySet());
 
-		for (String str: key) {
-			System.out.println("키값: " + str);
-		}
+		// 페이징 처리
+		Paging paging = new Paging(service.getCountTilt(vo), pageNum);
+		List<Map<String, Object>> pageList = mapList.subList(paging.getOffset(), Math.min(paging.getOffset() + 10, mapList.size()));
+		
+		// 사용자 테이블(tilt + structure) 속성 추가
+		columnList.sort(Comparator.naturalOrder());
+		columnList.add(0, "DATE");
+		columnList.add(1, "BATT");
+		columnList.add(2, "TEMP");
+		
+		// jsp로 전송
 		ModelAndView model = new ModelAndView();
 		model.addObject("list", mapList);
+		model.addObject("key", columnList);
+		model.addObject("pageList", pageList);
+		model.addObject("paging", paging);
+		model.addObject("pointer", pointer);
 		model.setViewName("test");
 		
 		return model;
@@ -82,11 +92,12 @@ public class MainController {
 		ModelAndView model = new ModelAndView();
 		Paging paging = new Paging(service.getCountUserInfo(), pageNum);
 		List<UserVO> userList = service.getAllUserInfo(paging.getOffset());
-		
+	
 		for (UserVO vo: userList) {
 			System.out.println("리스트: " + vo);
 		}
 		model.addObject("list", userList);
+		model.addObject("paging", paging);
 		model.setViewName("/main/first");
 		
 		return model;
