@@ -24,7 +24,6 @@
 	console.log("포인터: ",pointer)
 	let firstData = []
 	let chartList=[]
-	let 
 	let keys=[]
 	$.get("/getDataList?pointer="+pointer, function(dataList){
 	    for (const key in dataList[0]) {  keys.push(key)  }

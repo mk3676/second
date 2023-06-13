@@ -47,7 +47,7 @@ $(document).ready(function () {
 
 	// 데이터 가공해서  chart.js 에 배열 형태로 전송
 	
-	let dateOfList = []
+	/* let dateOfList = []
 	
 	var li = $("input[id^=add]")
 	
@@ -60,7 +60,7 @@ $(document).ready(function () {
 	  }
 	  dateOfList[day].push($(li).eq(i).val());
 	}
-	console.log(dateOfList["01"])
+	console.log(dateOfList["01"]) */
 	
 	/* li[0].each(function(idx,data){
 		let datad = $(data)
@@ -274,12 +274,22 @@ $(document).ready(function () {
 					</div>
 				</div>
 				<!-- End List -->
-				<div id="myDiv"></div>
-				<input type="hidden" id="pointer" value="${pointer}" />
 				
-				<c:forEach items="${DATE}" var="add">
-					<input type="hidden" id="add" value="${add}" />
+				<!-- Data-list -->
+				<c:forEach items="${key}" var="keys">
+				  <c:set var="data" value="${requestScope[keys]}" />
+				  <div id="${keys}" data-list="${data}"></div>
 				</c:forEach>
+				<!-- End Data-list -->
+				
+				<!-- Pointer & Key -->
+				<input type="hidden" id="pointer" value="${pointer}" />
+				<div id="keyData" data-list="${key}"></div>
+				<!-- End Pointer & Key -->
+				
+				<%-- <c:forEach items="${DATE}" var="add">
+					<input type="hidden" id="add" value="${add}" />
+				</c:forEach> --%>
 				
 			</div>
 		</div>

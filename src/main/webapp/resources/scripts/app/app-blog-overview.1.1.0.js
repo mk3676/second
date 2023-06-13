@@ -22,6 +22,37 @@
 	
 	let pointer = document.getElementById('pointer').value
 	console.log("포인터: ",pointer)
+	const keyData = document.getElementById('keyData').getAttribute('data-list').slice(1, -1).split(", ");
+	//console.log(keyData)
+	const dataLists= keyData.map(key => document.getElementById(key).getAttribute('data-list'));
+	const modifiedLists = dataLists.map(i => i.slice(1, -1).split(", "))
+	//console.log(modifiedLists)
+	//console.log(modifiedLists[0].map(i => i.split("-")[2].split(" ")[0]))
+	const data = modifiedLists[0].map( (date, i) => ({ date: date, index: i }) );
+	
+	const result = modifiedLists.map((list) => {
+	  const data = modifiedLists[0].map((date, i) => ({ date: date, index: i }));
+	  
+	  return data.reduce((acc, cur) => {
+	    const curDate = cur.date.split("-")[2].split(" ")[0];
+	    
+	    if (acc.length === 0) {
+	      acc.push({ date: curDate, data: [list[cur.index]] });
+	    } else {
+	      const foundIndex = acc.findIndex(group => group.date === curDate);
+	      
+	      if (foundIndex === -1) {
+	        acc.push({ date: curDate, data: [list[cur.index]] });
+	      } else {
+	        acc[foundIndex].data.push(list[cur.index]);
+	      }
+	    }
+	    
+	    return acc;
+	  }, []).map(group => group.data);
+	});
+	console.log(result)
+	
 
     //console.log("확인값: ", Number(dataList[0]['DATE'].substr(8, 2)))
     var data1_list= [123,150,200,300,500,400,800,210,700,800];
