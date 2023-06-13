@@ -23,9 +23,9 @@ public interface DataMapper {
 	// userinfo 전체 데이터 가져오기
 	public List<UserVO> getAllUserInfo(int offset);
 	
-	// 테이블에서 password 만 가져오기
-	public String getPassword(String tiltName);
-	
 	// 전체 데이터의 갯수 가져오기
 	public int getCountTilt(@Param("info") UserVO info);
+	
+	// password가 유효한지 판단하기
+	public UserVO comparePassword(@Param("pwd") String pwd, @Param("cnt") int cnt);
 }

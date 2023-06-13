@@ -16,7 +16,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# n자리의 난수 생성
+# n + 1 자리의 난수 생성
 def randNumber(num):
     number = ""
 

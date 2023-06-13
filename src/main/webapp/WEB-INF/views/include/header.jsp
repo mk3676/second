@@ -31,6 +31,8 @@
 <script src="/resources/scripts/extras.1.1.0.min.js"></script>
 <script src="/resources/scripts/shards-dashboards.1.1.0.min.js"></script>
 <!-- <script src="/resources/scripts/app/app-blog-overview.1.1.0.js"></script> -->
+      <script src="/resources/scripts/html2canvas.js"></script>
+      <script src="/resources/scripts/jspdf.min.js"></script>
 <script>
 var currentLocation = window.location.pathname;
 if(currentLocation === '/main/second' || currentLocation === '/second'){

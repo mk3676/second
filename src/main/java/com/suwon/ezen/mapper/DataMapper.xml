@@ -32,14 +32,14 @@
 		select * from userInfo limit 10 offset #{offset}
 	</select>
 	
-	<!-- password 만 가져오기 -->
-	<select id="getPassword" parameterType="String" resultType="String">
-		select pwd from userInfo where tiltName = #{tiltName}
-	</select>
-	
 	<!-- 전체 데이터의 갯수 가져오기 -->
 	<select id="getCountTilt" parameterType="com.suwon.ezen.vo.UserVO" resultType="int">
 		select count(loc.DATE) from ${info.tiltName} as tilt inner join ${info.structureName} as loc
 			on tilt.opdatetime = loc.DATE
+	</select>
+	
+	<!-- password가 유효한지 판단하기 -->
+	<select id="comparePassword" resultType="com.suwon.ezen.vo.UserVO">
+		select pwd, pointer from userInfo where pwd = #{pwd} and cnt = #{cnt}
 	</select>
 </mapper>

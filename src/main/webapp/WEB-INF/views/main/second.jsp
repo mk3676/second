@@ -62,7 +62,31 @@
 					// ajax
 				});
 
+				$("#printPDF").click(function () {
+					html2canvas($('body')[0]).then(function (canvas) {
 
+						var imgData = canvas.toDataURL('image/png');
+						var imgWidth = 190;
+						var pageHeight = imgWidth * 1.414;
+						var imgHeight = canvas.height * imgWidth / canvas.width;
+						var heightLeft = imgHeight;
+						var margin = 10;
+						var doc = new jsPDF('p', 'mm');
+						var position = 0;
+
+						doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+						heightLeft -= pageHeight;
+
+						while (heightLeft >= 20) {
+							position = heightLeft - imgHeight;
+							doc.addPage();
+							doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+							heightLeft -= pageHeight;
+						}
+
+						doc.save('tilt-graph.pdf');
+					});
+				});
 			})
 		</script>
 		<!-- End Script -->
@@ -139,7 +163,7 @@
 											<div class="stats-small__data text-center">
 												<span class="stats-small__label text-uppercase">보고서 출력</span>
 												<div class="stats-small__value">
-													<span class="badge bg-info">보고서</span>
+													<span class="badge bg-info" id="printPDF">보고서</span>
 												</div>
 											</div>
 										</div>
