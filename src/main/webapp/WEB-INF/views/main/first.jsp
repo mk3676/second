@@ -38,6 +38,24 @@ $(document).ready(function(){
 		console.log(pwd)
 		// ajax / true 이면  pwd , pointer 담은 UserVO 를 form에 넣어보냄
 	})
+	
+    $("#submitButton").click(function () {
+        console.log("클릭함")
+        var data = $("#insert")[0]
+        var formData = new FormData(data);
+
+        $.ajax({
+          type: "post",
+          url: "http://127.0.0.1:5000/insert",
+          dataType: "json",
+          contentType: false,
+          processData: false,
+          data: formData,
+          success(result) {
+            location.href = "/main/second?pointer=" + result["pointer"]
+          }
+        });
+      });
 })
 </script>
 <!-- End Script -->
@@ -103,7 +121,7 @@ $(document).ready(function(){
 										<td>
 											<c:choose>
 												<c:when test="${list.status eq '열람가능'}">
-													<span class="badge bg-success">열람가능</span>
+													<span class="badge bg-success" data-toggle="modal" data-target="#pwdModal">열람가능</span>
 												</c:when>
 												<c:when test="${list.status eq '수정중'}">
 													<span class="badge bg-warning">수정중</span>
@@ -131,7 +149,6 @@ $(document).ready(function(){
 					
 					<c:forEach begin="${paging.startNum}"
 						end="${paging.startNum+9 > paging.lastNum ? paging.lastNum : paging.startNum+9}" var="page">
-						<input type="text" value="${paging.startNum+9 > paging.lastNum}" />
 						<c:choose>
 							<c:when test="${page ne paging.pageNum}">
 								<a style="cursor:pointer;" class="pageClass" href="/main/first?pageNum=${page}">${page}</a>

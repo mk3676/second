@@ -12,8 +12,19 @@
     //
     // Blog Overview Users
     //
+	
+	let ranColor = ['rgba(45,124,233,0.1)','rgba(255,65,105,0.1)','rgba(118,67,151,0.1)','rgba(238,60,70,0.1)'
+					,'rgba(14,112,98,0.1)','rgba(88,224,255,0.1)','rgba(253,208,43,0.1)','rgba(163,44,158,0.1)'
+					,'rgba(255,90,67,0.1)','rgba(197,225,165,0.1)']
+	let ranColor2 = ['rgba(45,124,233,1)','rgba(255,65,105,1)','rgba(118,67,151,1)','rgba(238,60,70,1)'
+					,'rgba(14,112,98,1)','rgba(88,224,255,1)','rgba(253,208,43,1)','rgba(163,44,158,1)'
+					,'rgba(255,90,67,1)','rgba(197,225,165,1)']
+	
+	let pointer = document.getElementById('pointer').value
+	console.log("포인터: ",pointer)
 
-	var data1_list= [123,150,200,300,500,400,800,210,700,800];
+    //console.log("확인값: ", Number(dataList[0]['DATE'].substr(8, 2)))
+    var data1_list= [123,150,200,300,500,400,800,210,700,800];
 	var data2_list= [50,60,70,80,90,100,115,80,130,160,300,77];
 	
 	var buttons = document.getElementsByClassName('myButton');
@@ -32,7 +43,7 @@
         return i === 0 ? 1 : i; 
       }),
 	  datasets: [{
-	      label: '경사 데이터',
+	      label: "12",
 	      fill: 'start',
 	      data: data1_list,
 	      backgroundColor: 'rgba(0,123,255,0.1)',
@@ -43,7 +54,7 @@
 	      pointRadius: 0,
 	      pointHoverRadius: 3
 	    }, {
-	      label: '위치 데이터',
+	      label: "123",
 	      fill: 'start',
 	      data: data2_list,
 	      backgroundColor: 'rgba(255,65,105,0.1)',
@@ -79,8 +90,7 @@
           gridLines: false, // grid 가 필요할때 지우자
           ticks: {
             callback: function (tick, index) {
-              //return index % 7 !== 0 ? '' : tick;
-              return tick;
+              return tick;  // index % 7 !== 0 ? '' : tick;
             }
           }
         }],
@@ -123,11 +133,16 @@
     aocMeta.data[bouData.datasets[0].data.length - 1]._model.radius = 0;
 
     window.BlogOverviewChart.render();
+	    
+	
+	
+	
+	
 
   });
 })(jQuery);
 
-
+	 
 /*
 	'rgba(118,67,151,0.1)'  보라색 
 	'rgba(238,60,70,0.1)'   빨간색 

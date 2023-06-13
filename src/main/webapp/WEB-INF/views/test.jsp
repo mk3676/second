@@ -92,7 +92,16 @@
             <c:forEach var="dataList" items="${pageList}">
               <tr>
                 <c:forEach var="key" items="${key}">
-                  <td>${dataList[key]}</td>
+                  <td>
+	                  <c:choose>
+	                    <c:when test="${key.matches('.*DATE.*')}">
+	                      ${dataList[key]}
+	                    </c:when>
+	                    <c:otherwise>
+	                      <fmt:formatNumber pattern="###,###.##" value="${dataList[key]}"/>
+	                    </c:otherwise>
+	                  </c:choose>
+                  </td>
                 </c:forEach>
               </tr>
             </c:forEach>

@@ -21,3 +21,6 @@ create table userInfo(
 );
 commit;
 select * from userInfo;
+
+select count(loc.DATE) from aa26398_tilt as tilt inner join aa26398_loc as loc
+			on tilt.opdatetime = loc.DATE;
