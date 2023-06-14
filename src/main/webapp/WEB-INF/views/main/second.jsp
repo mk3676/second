@@ -89,8 +89,21 @@ $(document).ready(function () {
 			doc.save('tilt-graph.pdf');
 		});
 	});
-})
+	
+	// Date-picker 실행
+	$(function() {
+	  $("#blog-overview-date-range-1").datepicker({
+	    defaultDate: new Date(),
+	    showOtherMonths: true,
+	    selectOtherMonths: true
+	  });
 
+	  // Datepicker가 열리는 경우에 Shards UI 라이브러리에서 제공하는 CSS 클래스를 추가합니다.
+	  $("#blog-overview-date-range-1").on("click", function() {
+	    $(".ui-datepicker").addClass("shards-datepicker");
+	  });
+	});
+})
 </script>
 <!-- End Script -->
 
@@ -209,6 +222,18 @@ $(document).ready(function () {
 						<h5 class="m-0">차트</h5>
 					</div>
 					<div class="card-body pt-0">
+						<div class="row border-bottom py-2 bg-light">
+							<div class="col-12 col-sm-6">
+								<div id="blog-overview-date-range" class="input-daterange input-group input-group-sm my-auto ml-auto mr-auto ml-sm-auto mr-sm-0" style="max-width: 230px;">
+									<input type="text" class="input-sm form-control" name="Date" placeholder="Date" id="blog-overview-date-range-1">
+									<span class="input-group-append">
+										<span class="input-group-text">
+											<i class="material-icons"></i>
+										</span>
+									</span>
+								</div>
+							</div>
+						</div>
 						<canvas height="130" style="max-width: 100% !important;" class="blog-overview-chart"></canvas>
 					</div>
 				</div>

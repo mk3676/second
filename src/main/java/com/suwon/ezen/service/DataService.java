@@ -34,4 +34,7 @@ public interface DataService {
 	
 	// status 변경하기
 	public int changePassword(UserVO vo);
+	
+	// 날짜별 전체 데이터 가져오기
+	public List<Map<String, Object>> getTableByDate(@Param("info") UserVO info, @Param("date") String date, @Param("columnList") List<String> columnList);
 }

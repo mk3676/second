@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -152,4 +153,23 @@ public class MainController {
 		
 		return new ResponseEntity<HashMap<String, String>>(map, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/getTableByDate")
+	public @ResponseBody List<Map<String, Object>> getTableByDate(@RequestParam String date, @Param("pointer") String pointer) {
+		System.out.println("여기들어와써, 날짜:"+date+", pointer: "+pointer);
+		
+		// 사옹자 데이터 가져오기
+		UserVO vo = service.getUserInfo(pointer);
+
+		// 사용자 테이블(tilt + structure) 속성 가져오기(index, opdatetime 제거)
+		List<String> columnList =  service.getTiltColumn(vo.getTiltName());
+		columnList.remove("index");
+		columnList.remove("opdatetime");
+		System.out.println("columnList: "+ columnList);
+		// 날짜별 전체 데이터 가져오기
+ 		List<Map<String, Object>> getTableByDate = service.getTableByDate(vo, date, columnList);
+	 	System.out.println(date+" 날짜별: "+getTableByDate);
+	    return getTableByDate;
+	}
+	
 }

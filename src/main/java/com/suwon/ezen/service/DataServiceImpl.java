@@ -89,4 +89,12 @@ public class DataServiceImpl implements DataService {
 		return result;
 	}
 
+	// 날짜별 전체 데이터 가져오기
+	@Override
+	public List<Map<String, Object>> getTableByDate(@Param("info") UserVO info, @Param("date") String date, @Param("columnList") List<String> columnList) {
+		List<Map<String, Object>> result = mapper.getTableByDate(info, date, columnList);
+		
+		return result;
+	}
+
 }
