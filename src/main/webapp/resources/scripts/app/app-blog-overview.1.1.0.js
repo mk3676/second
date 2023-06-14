@@ -12,51 +12,94 @@
     //
     // Blog Overview Users
     //
-
-	var data1_list= [123,150,200,300,500,400,800,210,700,800];
-	var data2_list= [50,60,70,80,90,100,115,80,130,160,300,77];
 	
-	var buttons = document.getElementsByClassName('myButton');
-	Array.from(buttons).forEach(function(button, idx){
-	  button.addEventListener('click', function() {
-	    $(this).toggleClass('btn-light');
-	    bouData.datasets[idx].hidden = !bouData.datasets[idx].hidden;
-	    BlogOverviewChart.update();
-	  });
+	let ranColor = ['rgba(45,124,233,0.1)','rgba(255,65,105,0.1)','rgba(118,67,151,0.1)','rgba(238,60,70,0.1)'
+					,'rgba(14,112,98,0.1)','rgba(88,224,255,0.1)','rgba(253,208,43,0.1)','rgba(163,44,158,0.1)'
+					,'rgba(255,90,67,0.1)','rgba(197,225,165,0.1)']
+	let ranColor2 = ['rgba(45,124,233,1)','rgba(255,65,105,1)','rgba(118,67,151,1)','rgba(238,60,70,1)'
+					,'rgba(14,112,98,1)','rgba(88,224,255,1)','rgba(253,208,43,1)','rgba(163,44,158,1)'
+					,'rgba(255,90,67,1)','rgba(197,225,165,1)']
+	
+	let pointer = document.getElementById('pointer').value
+	console.log("포인터: ",pointer)
+	const keyData = document.getElementById('keyData').getAttribute('data-list').slice(1, -1).split(", ");
+	//console.log(keyData)
+	const dataLists= keyData.map(key => document.getElementById(key).getAttribute('data-list'));
+	const modifiedLists = dataLists.map(i => i.slice(1, -1).split(", "))
+	//console.log(modifiedLists)
+	//console.log(modifiedLists[0].map(i => i.split("-")[2].split(" ")[0]))
+	const data = modifiedLists[0].map( (date, i) => ({ date: date, index: i }) );
+	
+	const result = modifiedLists.map((list) => {
+	  const data = modifiedLists[0].map((date, i) => ({ date: date, index: i }));
+	  
+	  return data.reduce((acc, cur) => {
+	    const curDate = cur.date.split("-")[2].split(" ")[0];
+	    
+	    if (acc.length === 0) {
+	      acc.push({ date: curDate, data: [list[cur.index]] });
+	    } else {
+	      const foundIndex = acc.findIndex(group => group.date === curDate);
+	      
+	      if (foundIndex === -1) {
+	        acc.push({ date: curDate, data: [list[cur.index]] });
+	      } else {
+	        acc[foundIndex].data.push(list[cur.index]);
+	      }
+	    }
+	    
+	    return acc;
+	  }, []).map(group => group.data);
 	});
+	console.log(result)
+	//console.log(result[3][0].length)
 	
+	let lenArray = result.reduce((acc, cur) => { 
+	  let rowLength = cur.map(el => el.length); // 1차원 배열의 요소 길이 계산
+	  return acc.push(...rowLength) && acc;
+	}, []);
+	//console.log(lenArray)
+	
+
     var bouCtx = document.getElementsByClassName('blog-overview-chart')[0];
     
-    var bouData = {
-      labels: Array.from(new Array(30), function (_, i) {
-        return i === 0 ? 1 : i; 
-      }),
-	  datasets: [{
-	      label: '경사 데이터',
-	      fill: 'start',
-	      data: data1_list,
-	      backgroundColor: 'rgba(0,123,255,0.1)',
-	      borderColor: 'rgba(0,123,255,1)',
-	      pointBackgroundColor: '#ffffff',
-	      pointHoverBackgroundColor: 'rgb(0,123,255)',
-	      borderWidth: 1.5,
-	      pointRadius: 0,
-	      pointHoverRadius: 3
-	    }, {
-	      label: '위치 데이터',
-	      fill: 'start',
-	      data: data2_list,
-	      backgroundColor: 'rgba(255,65,105,0.1)',
-	      borderColor: 'rgba(255,65,105,1)',
-	      pointBackgroundColor: '#ffffff',
-	      pointHoverBackgroundColor: 'rgba(255,65,105,1)',
-	      borderDash: [3, 3],	
-	      borderWidth: 1,
-	      pointRadius: 0,
-	      pointHoverRadius: 2,
-	      pointBorderColor: 'rgba(255,65,105,1)'
-	    }]
-  		  };
+let dataLength = result.reduce((acc, row) => Math.max(acc, row.length), 0);
+let labelsArray = Array.from(new Array(dataLength), (_, i) => i + 1);
+
+let bouData = { labels: labelsArray, datasets: [] };
+
+for (let i = 0; i < 10; i++) {
+  bouData.datasets.push({
+    label: keyData[i%10],
+    fill: 'start',
+    backgroundColor: ranColor[i%10],
+    borderColor: ranColor2[i%10],
+    pointBackgroundColor: '#ffffff',
+    pointHoverBackgroundColor: ranColor2[i%10],
+    borderWidth: 1.5,
+    pointRadius: 0,
+    pointHoverRadius: 3,
+    data: result.reduce((acc, row) => {
+      if (row[i]) { // row[i] 값이 존재할 경우
+        acc.push(row[i].reduce((subAcc, val) => {
+          if (Array.isArray(val)) {
+            subAcc.push(...val);
+          } else {
+            subAcc.push(val);
+          }
+          return subAcc;
+        }, []));
+      } else { // row[i] 값이 존재하지 않는 경우 null 값 추가하지 않음
+        acc.push(row[i]);
+      }
+      return acc;
+    }, [])
+  });
+}
+
+	//console.log(bouData.datasets)
+	
+	
     var bouOptions = {
       responsive: true,
       legend: {
@@ -74,13 +117,12 @@
         xAxes: [{
           scaleLabel: {
         	  display: true,
-        	  labelString: '날짜'
+        	  labelString: '시간'
           },
           gridLines: false, // grid 가 필요할때 지우자
           ticks: {
             callback: function (tick, index) {
-              //return index % 7 !== 0 ? '' : tick;
-              return tick;
+              return index % 10 !== 0 ? '' : tick;
             }
           }
         }],
@@ -123,11 +165,37 @@
     aocMeta.data[bouData.datasets[0].data.length - 1]._model.radius = 0;
 
     window.BlogOverviewChart.render();
+	    
+	
+	let hiddenStatus = bouData.datasets.map(dataset => false); // 초기값: 모든 데이터가 보이는 상태
+    
+	var buttons = document.getElementsByClassName('myButton');
+	Array.from(buttons).forEach(function(button, idx) {
+	  button.addEventListener('click', function() {
+	    $(this).toggleClass('btn-light');
+	    bouData.datasets[idx].hidden = !bouData.datasets[idx].hidden;
+	    hiddenStatus[idx] = bouData.datasets[idx].hidden; // hiddenStatus 배열 업데이트
+	
+	    let visibleDataLength = bouData.datasets
+	        .map((dataset, idx) => ({hidden: dataset.hidden, idx: idx}))
+	        .filter(obj => !obj.hidden)
+	        .map(obj => bouData.datasets[obj.idx].data.length)
+	        .reduce((acc, cur) => Math.max(acc, cur), 0); // 숨겨지지 않은 데이터의 길이 중 가장 큰 값 구하기
+	
+	    dataLength = visibleDataLength; // dataLength 변수 업데이트
+	    bouData.labels = Array.from(new Array(dataLength), (_, i) => i + 1); // labels 배열 재생성
+	
+	    BlogOverviewChart.update();
+	  });
+	});
+	
+	
+	
 
   });
 })(jQuery);
 
-
+	 
 /*
 	'rgba(118,67,151,0.1)'  보라색 
 	'rgba(238,60,70,0.1)'   빨간색 
