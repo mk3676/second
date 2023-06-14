@@ -110,6 +110,7 @@ public class MainController {
 		model.addObject("pageList", pageList);
 		model.addObject("paging", paging);
 		model.addObject("pointer", pointer);
+		model.addObject("status", vo.getStatus());
 		model.setViewName("/main/second");
 				
 		
@@ -159,4 +160,27 @@ public class MainController {
 		return new ResponseEntity<HashMap<String, String>>(map, HttpStatus.OK);
 	}
 	
+	@GetMapping("/changeStatus")
+	public ResponseEntity<HashMap<String, String>> changeStatus(@Param("status") String status, @Param("pointer") String pointer) {
+		System.out.println("status 변경: " + status + " " + pointer);
+		
+		UserVO vo = new UserVO();
+		vo.setPointer(pointer);
+		vo.setStatus(status);
+		
+		int returnCheck = service.changePassword(vo);
+		System.out.println("결과는? " + returnCheck);
+		HashMap<String, String> map = new HashMap<String, String>(); 
+		
+		if (returnCheck == 1) {
+			map.put("value", "1");
+			map.put("text", "수정이 완료되었습니다.");
+		}
+		else {
+			map.put("value", "0");
+			map.put("text", "수정에 실패하였습니다.");
+		}
+		
+		return new ResponseEntity<HashMap<String, String>>(map, HttpStatus.OK);
+	}
 }

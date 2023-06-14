@@ -72,4 +72,12 @@ public class DataServiceImpl implements DataService {
 		
 		return vo;
 	}
+	
+	// status 변경하기
+	@Override
+	public int changePassword(UserVO vo) {
+		int result = mapper.changePassword(vo);
+		
+		return result;
+	}
 }

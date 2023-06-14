@@ -11,6 +11,20 @@
 				cursor: pointer;
 				user-select: none;
 			}
+
+			.pagination a {
+				margin: 0 5px;
+				color: #333;
+				text-decoration: none;
+				padding: 5px 10px;
+				border: 1px solid #ccc;
+				border-radius: 5px;
+			}
+
+			.pagination a.active {
+				background-color: #333;
+				color: #fff;
+			}
 		</style>
 		<!-- End Style -->
 
@@ -43,25 +57,48 @@
 					console.log("버튼이눌렸어", startDate, endDate)
 				})
 
-				let currentBadgeIndex = 0;
-				$(".selecting-badge").on("click", () => {
-					switch (currentBadgeIndex++ % 3) {
-						case 0:
-							$(".selecting-badge").html('<span class="badge bg-warning">수정중</span>');
-							break;
-						case 1:
-							$(".selecting-badge").html('<span class="badge bg-danger">열람불가</span>');
-							break;
-						case 2:
-							$(".selecting-badge").html('<span class="badge bg-success">열람가능</span>');
-							break;
-						default:
-							break;
+				// status 변경
+				var selection = $(".selecting-badge");
+				var status = '${status}';
+				var pointer = '${pointer}';
+				var timeOut;
+				selection.click(function () {
+					clearTimeout(timeOut);
+
+					if (status == "열람가능") {
+						selection.html('<span class="badge bg-warning">수정중</span>');
+						status = "수정중"
+					}
+					else if (status == "수정중") {
+						selection.html('<span class="badge bg-danger">열람불가</span>');
+						status = "열람불가"
+					}
+					else if (status == "열람불가") {
+						selection.html('<span class="badge bg-success">열람가능</span>');
+						status = "열람가능"
 					}
 
-					// ajax
+					// 마지막 클릭이 발생하고 1초가 지나면 ajax 통신을 실행한다.
+					timeOut = setTimeout(replaceStatus, 1000, status);
 				});
 
+				// status 변경을 위한 ajax
+				function replaceStatus(status) {
+					$.ajax({
+						type: "get",
+						url: "/changeStatus",
+						dataType: "json",
+						contentType: "application/json; charset=utf-8",
+						data: { "status": status, "pointer": pointer },
+						success(result) {
+							alert(result["text"])
+							location.reload();
+						}
+					});
+				}
+
+
+				// PDF 파일 생성
 				$("#printPDF").click(function () {
 					html2canvas($('body')[0]).then(function (canvas) {
 
@@ -177,7 +214,17 @@
 											<div class="stats-small__data text-center">
 												<span class="stats-small__label text-uppercase">상태 변경</span>
 												<div class="selecting-badge stats-small__value">
-													<span class="badge bg-success">열람가능</span>
+													<c:choose>
+														<c:when test="${status eq '열람가능'}">
+															<span class="badge bg-success">열람가능</span>
+														</c:when>
+														<c:when test="${status eq '수정중'}">
+															<span class="badge bg-warning">수정중</span>
+														</c:when>
+														<c:when test="${status eq '열람불가'}">
+															<span class="badge bg-danger">열람불가</span>
+														</c:when>
+													</c:choose>
 												</div>
 											</div>
 										</div>
@@ -247,38 +294,37 @@
 											</c:forEach>
 										</tbody>
 									</table>
+									<div class="card">
+										<div class=" pagination">
+											<c:if test="${paging.prev}">
+												<c:set var="prevPage" value="${paging.startNum-1}" />
+												<a href="/second?pageNum=${prevPage}&pointer=${pointer}" class="pageClass">이전</a>
+											</c:if>
+
+											<c:forEach begin="${paging.startNum}"
+												end="${paging.startNum+9 > paging.lastNum ? paging.lastNum : paging.startNum+9}" var="page">
+												<c:choose>
+													<c:when test="${page ne paging.pageNum}">
+														<a style="cursor:pointer;" class="pageClass"
+															href="/second?pageNum=${page}&pointer=${pointer}">${page}</a>
+													</c:when>
+													<c:when test="${page eq paging.pageNum}">
+														<a style="cursor:pointer; background-color: #cfe2f3;" class="pageClass"
+															href="/second?pageNum=${page}&pointer=${pointer}">${page}</a>
+													</c:when>
+												</c:choose>
+											</c:forEach>
+
+											<c:if test="${paging.next}">
+												<c:set var="nextPage" value="${paging.startNum+10}" />
+												<a class="pageClass" href="/second?pageNum=${nextPage}&pointer=${pointer}">이후</a>
+											</c:if>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 						<!-- End List -->
-
-						<div class=" pagination">
-							<c:if test="${paging.prev}">
-								<c:set var="prevPage" value="${paging.startNum-1}" />
-								<a href="/main/displayColumn?pageNum=${prevPage}&pointer=${pointer}" class="pageClass">이전</a>
-							</c:if>
-
-							<c:forEach begin="${paging.startNum}"
-								end="${paging.startNum+9 > paging.lastNum ? paging.lastNum : paging.startNum+9}" var="page">
-								<c:choose>
-									<c:when test="${page ne paging.pageNum}">
-										<a style="cursor:pointer;" class="pageClass"
-											href="/main/displayColumn?pageNum=${page}&pointer=${pointer}">${page}</a>
-									</c:when>
-									<c:when test="${page eq paging.pageNum}">
-										<a style="cursor:pointer; background-color: #cfe2f3;" class="pageClass"
-											href="/main/displayColumn?pageNum=${page}&pointer=${pointer}">${page}</a>
-									</c:when>
-								</c:choose>
-
-							</c:forEach>
-
-							<c:if test="${paging.next}">
-								<c:set var="nextPage" value="${paging.startNum+10}" />
-								<a class="pageClass" href="/main/displayColumn?pageNum=${nextPage}&pointer=${pointer}">이후</a>
-							</c:if>
-						</div>
-
 					</div>
 				</div>
 			</div>

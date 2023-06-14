@@ -31,56 +31,85 @@
 		<!-- Script -->
 		<script>
 			$(document).ready(function () {
+				var cnt = 0;
+
+				// 과업 목록에서 비밀번호 확인
 				$("span.badge.bg-success").each(function (idx) {
 					$(this).click(function (e) {
-						
-						console.log("값은? " + $(".hiddenCnt").eq(idx).val())
+						cnt = $(".hiddenCnt").eq(idx).val()
+						console.log("값은? " + cnt)
 					})
-					// 과업 목록에서 비밀번호 확인
-				$("#checkPassword").click(function () {
+				})
+
+				// 비밀번호를 입력하면 ajax 처리한다.
+				var parentModal = $("#checkPassword").closest(".modal");
+				parentModal.on("click", "#checkPassword", function () {
 					console.log("열람버튼이 눌렸어")
-					let pwd = $(".checkOK").val()
-					let cnt = $(".hiddenCnt").eq(idx).val()
-					console.log(pwd, cnt)
+					var pwd = $(".checkOK").val()
 
-					// ajax / true 이면  pwd , pointer 담은 UserVO 를 form에 넣어보냄
-					$.ajax({
-						type: "get",
-						url: "/pwdCheck",
-						dataType: "json",
-						contentType: "application/json; charset=utf-8",
-						data: {"pwd": pwd, "cnt": cnt},
-						success(result) {
-							if (result["value"] == "1") {
-								location.href = "/second?pointer=" + result["text"]
+					if (pwd == "" || pwd == null) {
+						alert("비밀번호를 입력해주세요.")
+						location.reload();
+					}
+					else {
+						$.ajax({
+							type: "get",
+							url: "/pwdCheck",
+							dataType: "json",
+							contentType: "application/json; charset=utf-8",
+							data: { "pwd": pwd, "cnt": cnt },
+							success(result) {
+								if (result["value"] == "1") {
+									location.href = "/second?pointer=" + result["text"]
+								}
+								else if (result["value"] == "0") {
+									alert(result["text"])
+									location.reload();
+								}
 							}
-							else if (result["value"] == "0") {
-								alert(result["text"])
-							}
-						}
-					});
-				})
-				})
+						});
+					}
+				});
 
-				
+				// 비밀번호 입력후 엔터키 입력시 버튼 클릭과 동일한 결과가 나오도록 한다.
+				$(".checkOK").on("keypress", function (e) {
+					if (e.which === 13) {
+						e.preventDefault();
+						$("#checkPassword").trigger("click");
+					}
+				});
 
 				// 데이터 입력
 				$("#submitButton").click(function () {
-					alert("데이터 처리 중이니 잠시만 기다려주세요.<br>처리 후 이동합니다.")
-					var data = $("#insert")[0]
-					var formData = new FormData(data);
+					if ($("input[name='name']").val() == "" || $("input[name='name']").val() == null) {
+						alert("이름을 입력해주세요.")
+					}
+					else if ($("input[name='phone']").val() == "" || $("input[name='phone']").val() == null) {
+						alert("전화번호를 입력해주세요.")
+					}
+					else if ($("input[name='email']").val() == "" || $("input[name='email']").val() == null) {
+						alert("이메일을 입력해주세요.")
+					}
+					else if ($("input[name='password']").val() == "" || $("input[name='password']").val() == null) {
+						alert("비밀번호를 입력해주세요.")
+					}
+					else {
+						alert("데이터 처리 중이니 잠시만 기다려주세요. 처리 후 이동합니다.")
+						var data = $("#insert")[0]
+						var formData = new FormData(data);
 
-					$.ajax({
-						type: "post",
-						url: "http://127.0.0.1:5000/insert",
-						dataType: "json",
-						contentType: false,
-						processData: false,
-						data: formData,
-						success(result) {
-							location.href = "/second?pointer=" + result["pointer"]
-						}
-					});
+						$.ajax({
+							type: "post",
+							url: "http://127.0.0.1:5000/insert",
+							dataType: "json",
+							contentType: false,
+							processData: false,
+							data: formData,
+							success(result) {
+								location.href = "/second?pointer=" + result["pointer"]
+							}
+						});
+					}
 				});
 			})
 		</script>
@@ -146,10 +175,11 @@
 													<td>
 														<fmt:formatDate pattern="yyyy년 M월 d일 hh시 m분" value="${dataList.creDate}" />
 													</td>
-													<td> 
+													<td>
 														<c:choose>
 															<c:when test="${dataList.status eq '열람가능'}">
-																<input type="hidden" name="cnt" class="hiddenCnt" value="${dataList.cnt}" />
+																<input type="hidden" name="cnt" class="hiddenCnt" data-cnt="${dataList.cnt}"
+																	value="${dataList.cnt}" />
 																<span class="badge bg-success" data-toggle="modal" data-target="#pwdModal">열람가능</span>
 															</c:when>
 															<c:when test="${dataList.status eq '수정중'}">
@@ -162,6 +192,7 @@
 													</td>
 												</tr>
 											</c:forEach>
+
 										</tbody>
 									</c:otherwise>
 								</c:choose>
@@ -173,18 +204,18 @@
 							<div class=" pagination">
 								<c:if test="${paging.prev}">
 									<c:set var="prevPage" value="${paging.startNum-1}" />
-									<a href="/main/first?pageNum=${prevPage}" class="pageClass"><i class="fas fa-angle-left"></i></a>
+									<a href="/first?pageNum=${prevPage}" class="pageClass"><i class="fas fa-angle-left"></i></a>
 								</c:if>
 
 								<c:forEach begin="${paging.startNum}"
 									end="${paging.startNum+9 > paging.lastNum ? paging.lastNum : paging.startNum+9}" var="page">
 									<c:choose>
 										<c:when test="${page ne paging.pageNum}">
-											<a style="cursor:pointer;" class="pageClass" href="/main/first?pageNum=${page}">${page}</a>
+											<a style="cursor:pointer;" class="pageClass" href="/first?pageNum=${page}">${page}</a>
 										</c:when>
 										<c:when test="${page eq paging.pageNum}">
 											<a style="cursor:pointer; background-color: #cfe2f3;" class="pageClass"
-												href="/main/first?pageNum=${page}&">${page}</a>
+												href="/first?pageNum=${page}&">${page}</a>
 										</c:when>
 									</c:choose>
 

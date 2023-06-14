@@ -28,4 +28,7 @@ public interface DataService {
 	
 	// password가 유효한지 판단하기
 	public UserVO comparePassword(@Param("pwd") String pwd, @Param("cnt") int cnt);
+	
+	// status 변경하기
+	public int changePassword(UserVO vo);
 }
