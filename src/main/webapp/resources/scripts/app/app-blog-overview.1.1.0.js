@@ -52,53 +52,54 @@
 	  }, []).map(group => group.data);
 	});
 	console.log(result)
+	//console.log(result[3][0].length)
+	
+	let lenArray = result.reduce((acc, cur) => { 
+	  let rowLength = cur.map(el => el.length); // 1차원 배열의 요소 길이 계산
+	  return acc.push(...rowLength) && acc;
+	}, []);
+	//console.log(lenArray)
 	
 
-    //console.log("확인값: ", Number(dataList[0]['DATE'].substr(8, 2)))
-    var data1_list= [123,150,200,300,500,400,800,210,700,800];
-	var data2_list= [50,60,70,80,90,100,115,80,130,160,300,77];
-	
-	var buttons = document.getElementsByClassName('myButton');
-	Array.from(buttons).forEach(function(button, idx){
-	  button.addEventListener('click', function() {
-	    $(this).toggleClass('btn-light');
-	    bouData.datasets[idx].hidden = !bouData.datasets[idx].hidden;
-	    BlogOverviewChart.update();
-	  });
-	});
-	
     var bouCtx = document.getElementsByClassName('blog-overview-chart')[0];
     
-    var bouData = {
-      labels: Array.from(new Array(30), function (_, i) {
-        return i === 0 ? 1 : i; 
-      }),
-	  datasets: [{
-	      label: "12",
-	      fill: 'start',
-	      data: data1_list,
-	      backgroundColor: 'rgba(0,123,255,0.1)',
-	      borderColor: 'rgba(0,123,255,1)',
-	      pointBackgroundColor: '#ffffff',
-	      pointHoverBackgroundColor: 'rgb(0,123,255)',
-	      borderWidth: 1.5,
-	      pointRadius: 0,
-	      pointHoverRadius: 3
-	    }, {
-	      label: "123",
-	      fill: 'start',
-	      data: data2_list,
-	      backgroundColor: 'rgba(255,65,105,0.1)',
-	      borderColor: 'rgba(255,65,105,1)',
-	      pointBackgroundColor: '#ffffff',
-	      pointHoverBackgroundColor: 'rgba(255,65,105,1)',
-	      borderDash: [3, 3],	
-	      borderWidth: 1,
-	      pointRadius: 0,
-	      pointHoverRadius: 2,
-	      pointBorderColor: 'rgba(255,65,105,1)'
-	    }]
-  		  };
+let dataLength = result.reduce((acc, row) => Math.max(acc, row.length), 0);
+let labelsArray = Array.from(new Array(dataLength), (_, i) => i + 1);
+
+let bouData = { labels: labelsArray, datasets: [] };
+
+for (let i = 0; i < 10; i++) {
+  bouData.datasets.push({
+    label: keyData[i%10],
+    fill: 'start',
+    backgroundColor: ranColor[i%10],
+    borderColor: ranColor2[i%10],
+    pointBackgroundColor: '#ffffff',
+    pointHoverBackgroundColor: ranColor2[i%10],
+    borderWidth: 1.5,
+    pointRadius: 0,
+    pointHoverRadius: 3,
+    data: result.reduce((acc, row) => {
+      if (row[i]) { // row[i] 값이 존재할 경우
+        acc.push(row[i].reduce((subAcc, val) => {
+          if (Array.isArray(val)) {
+            subAcc.push(...val);
+          } else {
+            subAcc.push(val);
+          }
+          return subAcc;
+        }, []));
+      } else { // row[i] 값이 존재하지 않는 경우 null 값 추가하지 않음
+        acc.push(row[i]);
+      }
+      return acc;
+    }, [])
+  });
+}
+
+	//console.log(bouData.datasets)
+	
+	
     var bouOptions = {
       responsive: true,
       legend: {
@@ -116,12 +117,12 @@
         xAxes: [{
           scaleLabel: {
         	  display: true,
-        	  labelString: '날짜'
+        	  labelString: '시간'
           },
           gridLines: false, // grid 가 필요할때 지우자
           ticks: {
             callback: function (tick, index) {
-              return tick;  // index % 7 !== 0 ? '' : tick;
+              return index % 10 !== 0 ? '' : tick;
             }
           }
         }],
@@ -166,6 +167,27 @@
     window.BlogOverviewChart.render();
 	    
 	
+	let hiddenStatus = bouData.datasets.map(dataset => false); // 초기값: 모든 데이터가 보이는 상태
+    
+	var buttons = document.getElementsByClassName('myButton');
+	Array.from(buttons).forEach(function(button, idx) {
+	  button.addEventListener('click', function() {
+	    $(this).toggleClass('btn-light');
+	    bouData.datasets[idx].hidden = !bouData.datasets[idx].hidden;
+	    hiddenStatus[idx] = bouData.datasets[idx].hidden; // hiddenStatus 배열 업데이트
+	
+	    let visibleDataLength = bouData.datasets
+	        .map((dataset, idx) => ({hidden: dataset.hidden, idx: idx}))
+	        .filter(obj => !obj.hidden)
+	        .map(obj => bouData.datasets[obj.idx].data.length)
+	        .reduce((acc, cur) => Math.max(acc, cur), 0); // 숨겨지지 않은 데이터의 길이 중 가장 큰 값 구하기
+	
+	    dataLength = visibleDataLength; // dataLength 변수 업데이트
+	    bouData.labels = Array.from(new Array(dataLength), (_, i) => i + 1); // labels 배열 재생성
+	
+	    BlogOverviewChart.update();
+	  });
+	});
 	
 	
 	

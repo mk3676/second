@@ -195,8 +195,7 @@ $(document).ready(function () {
 						<div class="card-body pt-3 pb-3">
 							<h6 class="card-subtitle mb-2 text-muted">데이터를 선택하여 필요한 데이터만 보실 수 있습니다.</h6>
 							<div role="group" aria-label="Small button group">
-								<c:forEach var="good" items="${list}">
-								</c:forEach>
+								
 								<button type="button" class="btn btn-secondary myButton">경사 데이터</button>
 								<button type="button" class="btn btn-secondary myButton">위치 데이터</button>
 
