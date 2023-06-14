@@ -41,6 +41,14 @@ public class DataServiceImpl implements DataService {
 		return map;
 	}
 
+	// 일부 데이터 가져오기(페이징)
+	@Override
+	public List<Map<String, Object>> getTablePaging(UserVO info, List<String> columnList, int offset) {
+		List<Map<String, Object>> list = mapper.getTablePaging(info, columnList, offset);
+		
+		return list;
+	}
+	
 	// userinfo 전체 데이터의 갯수 가져오기
 	@Override
 	public int getCountUserInfo() {
@@ -56,13 +64,6 @@ public class DataServiceImpl implements DataService {
 		
 		return result;
 	}
-	
-	// 테이블에서 password 만 가져오기
-	@Override
-	public String getPassword(String tiltName) {
-		
-		return mapper.getPassword(tiltName);
-	}
 
 	// 전체 데이터의 갯수 가져오기
 	@Override
@@ -71,4 +72,21 @@ public class DataServiceImpl implements DataService {
 		
 		return result;
 	}
+
+	// password가 유효한지 판단하기
+	@Override
+	public UserVO comparePassword(@Param("pwd") String pwd, @Param("cnt") int cnt) {
+		UserVO vo = mapper.comparePassword(pwd, cnt);
+		
+		return vo;
+	}
+	
+	// status 변경하기
+	@Override
+	public int changePassword(UserVO vo) {
+		int result = mapper.changePassword(vo);
+		
+		return result;
+	}
+
 }
