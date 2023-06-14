@@ -17,15 +17,21 @@ public interface DataService {
 	// 전체 데이터 가져오기
 	public List<Map<String, Object>> getTable(@Param("info") UserVO info, @Param("columnList") List<String> columnList);
 
+	// 일부 데이터 가져오기(페이징)
+	public List<Map<String, Object>> getTablePaging(@Param("info") UserVO info, @Param("columnList") List<String> columnList, @Param("offset") int offset);
+	
 	// userinfo 전체 데이터의 갯수 가져오기
 	public int getCountUserInfo();
 	
 	// userinfo 전체 데이터 가져오기
 	public List<UserVO> getAllUserInfo(int offset);
 
-	// 테이블에서 password 만 가져오기
-	public String getPassword(String tiltName);
-
 	// 전체 데이터의 갯수 가져오기
 	public int getCountTilt(@Param("info") UserVO info);
+	
+	// password가 유효한지 판단하기
+	public UserVO comparePassword(@Param("pwd") String pwd, @Param("cnt") int cnt);
+	
+	// status 변경하기
+	public int changePassword(UserVO vo);
 }

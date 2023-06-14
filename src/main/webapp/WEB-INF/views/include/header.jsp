@@ -31,13 +31,25 @@
 <script src="/resources/scripts/extras.1.1.0.min.js"></script>
 <script src="/resources/scripts/shards-dashboards.1.1.0.min.js"></script>
 <!-- <script src="/resources/scripts/app/app-blog-overview.1.1.0.js"></script> -->
+      <!-- <script src="/resources/scripts/html2canvas.js"></script> -->
+      <!-- <script src="/resources/scripts/jspdf.min.js"></script> -->
 <script>
 var currentLocation = window.location.pathname;
 if(currentLocation === '/main/second' || currentLocation === '/second'){
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = '/resources/scripts/app/app-blog-overview.1.1.0.js';
-    document.head.appendChild(script);
+    const script1 = document.createElement('script');
+    script1.type = 'text/javascript';
+    script1.src = '/resources/scripts/app/app-blog-overview.1.1.0.js';
+    document.head.appendChild(script1);
+    
+    const script2 = document.createElement('script');
+    script2.type = 'text/javascript';
+    script2.src = '/resources/scripts/html2canvas.js';	
+    document.head.appendChild(script2);
+    
+    const script3 = document.createElement('script');
+    script3.type = 'text/javascript';
+    script3.src = '/resources/scripts/jspdf.min.js';
+    document.head.appendChild(script3);
 }
 </script>
 <!-- End Script -->
