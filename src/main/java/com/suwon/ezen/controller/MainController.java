@@ -91,11 +91,12 @@ public class MainController {
 		columnList.remove("opdatetime");
 
 		// 사용자 테이블(tilt + structure) 전체 가져오기
-		List<Map<String, Object>> mapList = service.getTable(vo, columnList);
+		// List<Map<String, Object>> mapList = service.getTable(vo, columnList); 
 
 		// 페이징 처리
 		Paging paging = new Paging(service.getCountTilt(vo), pageNum);
-		List<Map<String, Object>> pageList = mapList.subList(paging.getOffset(), Math.min(paging.getOffset() + 10, mapList.size()));
+//		List<Map<String, Object>> pageList = mapList.subList(paging.getOffset(), Math.min(paging.getOffset() + 10, mapList.size()));
+		List<Map<String, Object>> pageList = service.getTablePaging(vo, columnList, paging.getOffset());
 				
 		// 사용자 테이블(tilt + structure) 속성 추가
 		columnList.sort(Comparator.naturalOrder());
@@ -105,11 +106,16 @@ public class MainController {
 				
 		// jsp로 전송
 		ModelAndView model = new ModelAndView();
-		model.addObject("list", mapList);
+		/* model.addObject("list", mapList); */
+		// key(속성) 값
 		model.addObject("key", columnList);
+		// 페이징 처리된 테이블 데이터
 		model.addObject("pageList", pageList);
+		// 페이징 처리
 		model.addObject("paging", paging);
+		// pointer
 		model.addObject("pointer", pointer);
+		// status 반영
 		model.addObject("status", vo.getStatus());
 		model.setViewName("/main/second");
 				

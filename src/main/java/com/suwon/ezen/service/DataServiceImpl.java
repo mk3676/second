@@ -41,6 +41,14 @@ public class DataServiceImpl implements DataService {
 		return map;
 	}
 
+	// 일부 데이터 가져오기(페이징)
+	@Override
+	public List<Map<String, Object>> getTablePaging(UserVO info, List<String> columnList, int offset) {
+		List<Map<String, Object>> list = mapper.getTablePaging(info, columnList, offset);
+		
+		return list;
+	}
+	
 	// userinfo 전체 데이터의 갯수 가져오기
 	@Override
 	public int getCountUserInfo() {
@@ -80,4 +88,5 @@ public class DataServiceImpl implements DataService {
 		
 		return result;
 	}
+
 }
