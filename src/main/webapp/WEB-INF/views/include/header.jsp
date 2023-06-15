@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <link rel="stylesheet" id="main-stylesheet" data-version="1.1.0" href="/resources/styles/shards-dashboards.1.1.0.min.css">
 <link rel="stylesheet" href="/resources/styles/extras.1.1.0.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>
 <!-- End Head -->
@@ -33,6 +34,7 @@
 <!-- <script src="/resources/scripts/app/app-blog-overview.1.1.0.js"></script> -->
       <!-- <script src="/resources/scripts/html2canvas.js"></script> -->
       <!-- <script src="/resources/scripts/jspdf.min.js"></script> -->
+
 <script>
 var currentLocation = window.location.pathname;
 if(currentLocation === '/main/second' || currentLocation === '/second'){

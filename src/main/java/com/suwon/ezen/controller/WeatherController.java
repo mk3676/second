@@ -12,14 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.suwon.ezen.vo.WeatherVO;
 
-
-
-
 @RestController
 @RequestMapping("/sensor")
-
 public class WeatherController {
 	static private WeatherVO result;
+	
 	@PostMapping(value = "/getData", consumes = "application/json;charset=utf-8",
 			produces = "application/json")
 	public ResponseEntity<String> getWeather(@RequestBody WeatherVO vo, HttpSession session) {
@@ -28,9 +25,10 @@ public class WeatherController {
 		result=vo;
 		return new ResponseEntity<String>("success",HttpStatus.OK);
 	}
+	
 	@GetMapping(value = "/resultData", produces = "application/json")
 	public ResponseEntity<WeatherVO> resultData(){
-		
+
 		return new ResponseEntity<WeatherVO>(result,HttpStatus.OK);
 	}
 }
