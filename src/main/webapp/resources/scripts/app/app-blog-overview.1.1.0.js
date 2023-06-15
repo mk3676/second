@@ -20,14 +20,12 @@
 					,'rgba(14,112,98,1)','rgba(88,224,255,1)','rgba(253,208,43,1)','rgba(163,44,158,1)'
 					,'rgba(255,90,67,1)','rgba(197,225,165,1)']
 	
-	let pointer = document.getElementById('pointer').value
-	console.log("포인터: ",pointer)
-	let date = document.getElementById('blog-overview-date-range-1')
-
+	// data-list 에서 키 추출 => 각각의 키 를 가지고 data-list 추출
 	const keyData = document.getElementById('keyData').getAttribute('data-list').slice(1, -1).split(", ");
 	console.log("keyData:",keyData)
 	const dataLists= keyData.map(key => document.getElementById(key).getAttribute('data-list'));
-
+	
+	// 추출된 데이터를 JSON 형태로 변환
 	var updatedArr = dataLists.map(function(item) {
 	  try {
 	    return JSON.parse(item);
@@ -36,55 +34,69 @@
 	  }
 	});
 	
-	// 날짜형식 변환
-	//const dateObj = new Date(date.value);
-	//const newDate = dateObj.toISOString().slice(0, 10);
-	
+	// 추출한 데이터를 객체화 (전체데이터)
 	var list_obj={}
 	$.each(updatedArr,function(idx,data){
 		list_obj[keyData[idx]]=data;
 	});
-	console.log(list_obj)
+	//console.log("전체: ", list_obj)
 
-
-
-	var list_obj_date = {};
-	var list_obj_num = {};
 	
+	var list_obj_date = {}; // 날짜 배열만 저장
+	var list_obj_num = {};  // 모든 배열 저장
+	
+	// 날짜데이터 중 연-월-일 에 해당하는 데이터만 추출하여 키값으로 활용 (월별데이터)
 	$.each(list_obj.DATE, function(idx, data){
 	  var key = data.trim().substring(0, 10);
 	  list_obj_date[key] = [];
 	  list_obj_date[key].push(data.trim());
 	});
 	
+	
+	// 전체데이터를 월별로 분산 (월별데이터)
 	$.each(list_obj, function(key, value){
-	  //if (key === "DATE") return;
-	
+	  //if (key === "DATE") return;	// 여기 실행시 DATE는 포함하지 않게됨
 	  list_obj_num[key] = {};
-	
 	  $.each(list_obj[key], function(idx, data){
 	    var obj_key = list_obj.DATE[idx].trim().substring(0, 10);
-	
 	    if (!(obj_key in list_obj_num[key])){
 	      list_obj_num[key][obj_key] = [];
 	    }
-	
 	    list_obj_num[key][obj_key].push(data);
 	  });
 	});
-	console.log("여기:" ,list_obj_num)
+	//console.log("월별:" ,list_obj_num)
 	
+	// 월별데이터 각각의 날짜 중 시간 구하기
+	let timeData = {};
+	$.each(list_obj_num.DATE, function(idx,data){
+		if (!(idx in timeData)){
+			timeData[idx] = [];
+		}
+		timeData[idx] = data.map(i=>i.split(" ")[1])
+	})
+	//console.log("시간: ", timeData)
+	
+	// 월별데이터 각각의 길이 구하기 (월별데이터와 구조가 동일)
+	let lenData = {};
+	$.each(list_obj_num, function(key, value){
+		lenData[key] = {}; 
+		$.each(list_obj_num[key], function(idx, data){
+			lenData[key][idx] = data.length;
+		})
+	})
+	//console.log("길이: ", lenData)
+	
+	
+	// 날짜 목록 생성 (차트에서 키값으로 사용)
 	let dateData = Object.keys(list_obj_date)
 	
 	
-    var bouCtx = document.getElementsByClassName('blog-overview-chart')[0];
-    
-	let labelsArray = Array.from(new Array(700), (_, i) => i + 1);
-	
-	var bouCtx = document.getElementsByClassName('blog-overview-chart')[0];
-	let bouData = { labels: labelsArray, datasets: [] };
-	
+	// 차트 설정
+	var bouCtx = document.getElementsByClassName('blog-overview-chart')[0]; // 차트띄울 Canvas 위치
+	let bouData = { labels: [], datasets: [] };
 	for (let i = 0; i < keyData.length; i++) {
+	  bouData.labels = Array.from(new Array(lenData[keyData[i]][dateData[0]]), (_, idx) => timeData[dateData[0]][idx]);
 	  bouData.datasets.push({
 	    label: keyData[i%10],
 	    fill: 'start',
@@ -121,7 +133,7 @@
           gridLines: false, // grid 가 필요할때 지우자
           ticks: {
             callback: function (tick, index) {
-              return index % 10 !== 0 ? '' : tick;
+              return index % 2 !== 0 ? '' : tick;
             }
           }
         }],
@@ -166,29 +178,100 @@
     window.BlogOverviewChart.render();
 	    
 	
-	let hiddenStatus = bouData.datasets.map(dataset => false); // 초기값: 모든 데이터가 보이는 상태
-    
-	var buttons = document.getElementsByClassName('myButton');
-	Array.from(buttons).forEach(function(button, idx) {
-	  button.addEventListener('click', function() {
-	    $(this).toggleClass('btn-light');
-	    bouData.datasets[idx].hidden = !bouData.datasets[idx].hidden;
-	    hiddenStatus[idx] = bouData.datasets[idx].hidden; // hiddenStatus 배열 업데이트
 	
-	    let visibleDataLength = bouData.datasets
-	        .map((dataset, idx) => ({hidden: dataset.hidden, idx: idx}))
-	        .filter(obj => !obj.hidden)
-	        .map(obj => bouData.datasets[obj.idx].data.length)
-	        .reduce((acc, cur) => Math.max(acc, cur), 0); // 숨겨지지 않은 데이터의 길이 중 가장 큰 값 구하기
 	
-	    dataLength = visibleDataLength; // dataLength 변수 업데이트
-	    bouData.labels = Array.from(new Array(dataLength), (_, i) => i + 1); // labels 배열 재생성
+	let date = document.getElementById('blog-overview-date-range-1')
+	//date.setAttribute("placeholder", dateData[0])
 	
-	    BlogOverviewChart.update();
-	  });
+	$(date).change(function(){
+		const dateObj = new Date(date.value);
+		const newDate = moment(dateObj).format('YYYY-MM-DD');
+		//console.log("변경날짜: ", newDate)
+		
+		//차트 재설정
+		bouData = { labels: [], datasets: [] };
+		for (let i = 0; i < keyData.length; i++) {
+		  bouData.labels = Array.from(new Array(lenData[keyData[i]][newDate]), (_, idx) => timeData[newDate][idx]);
+		  bouData.datasets.push({
+		    label: keyData[i%10],
+		    fill: 'start',
+		    backgroundColor: ranColor[i%10],
+		    borderColor: ranColor2[i%10],
+		    pointBackgroundColor: '#ffffff',
+		    pointHoverBackgroundColor: ranColor2[i%10],
+		    borderWidth: 1.5,
+		    pointRadius: 0,
+		    pointHoverRadius: 3,
+		    data: list_obj_num[keyData[i]][newDate]
+		  });
+		};
+		
+	    var bouOptions = {
+	      responsive: true,
+	      legend: {
+	        position: 'top'
+	      },
+	      elements: {
+	        line: {
+	          tension: 0.3
+	        },
+	        point: {
+	          radius: 0
+	        }
+	      },
+	      scales: {
+	        xAxes: [{
+	          scaleLabel: {
+	        	  display: true,
+	        	  labelString: '시간'
+	          },
+	          gridLines: false, // grid 가 필요할때 지우자
+	          ticks: {
+	            callback: function (tick, index) {
+	              return index % 2 !== 0 ? '' : tick;
+	            }
+	          }
+	        }],
+	        yAxes: [{
+	       	  scaleLabel: {
+	         	  display: true,
+	         	  labelString: '값'
+	          },
+	          gridLines: false, // grid 가 필요할때 지우자
+	          ticks: {
+	            suggestedMax: 45,
+	            callback: function (tick, index, ticks) {
+	              if (tick === 0) {
+	                return tick;
+	              }
+	              return tick > 999 ? (tick/ 1000).toFixed(1) + 'K' : tick;
+	            }
+	          }
+	        }]
+	      },
+	      hover: {
+	        mode: 'nearest',
+	        intersect: false
+	      },
+	      tooltips: {
+	        custom: false,
+	        mode: 'nearest',
+	        intersect: false
+	      }
+	    };
+		
+	    window.BlogOverviewChart = new Chart(bouCtx, {
+	      type: 'LineWithLine',
+	      data: bouData,
+	      options: bouOptions
+	    });
+	
+	    var aocMeta = BlogOverviewChart.getDatasetMeta(0);
+	    aocMeta.data[0]._model.radius = 0;
+	    aocMeta.data[bouData.datasets[0].data.length - 1]._model.radius = 0;
+	
+	    window.BlogOverviewChart.render();
 	});
-	
-
   });
 })(jQuery);
 
