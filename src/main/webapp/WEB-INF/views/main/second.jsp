@@ -90,6 +90,9 @@ $(document).ready(function () {
 		});
 	});
 	
+	
+	
+	
 	// Date-picker 실행
 	$(function() {
 	  $("#blog-overview-date-range-1").datepicker({
@@ -98,7 +101,6 @@ $(document).ready(function () {
 	    selectOtherMonths: true
 	  });
 
-	  // Datepicker가 열리는 경우에 Shards UI 라이브러리에서 제공하는 CSS 클래스를 추가합니다.
 	  $("#blog-overview-date-range-1").on("click", function() {
 	    $(".ui-datepicker").addClass("shards-datepicker");
 	  });

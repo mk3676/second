@@ -23,60 +23,53 @@
 	let pointer = document.getElementById('pointer').value
 	console.log("포인터: ",pointer)
 	let date = document.getElementById('blog-overview-date-range-1')
-	$(date).change(function(){
-		console.log("눌렸다")
-		
-		$.ajax({
-			type: "get",
-			url: "/getTableByDate",
-			dataType: "json",
-			contentType: "application/json; charset=utf-8",
-			data: { date: date.value, pointer: pointer },
-			success(result) {
-				console.log("success: ",result)
-			}
-		});
-	});
 
+	const keyData = document.getElementById('keyData').getAttribute('data-list').slice(1, -1).split(", ");
+	console.log("keyData:",keyData)
+	const dataLists= keyData.map(key => document.getElementById(key).getAttribute('data-list'));
+
+	var updatedArr = dataLists.map(function(item) {
+	  try {
+	    return JSON.parse(item);
+	  } catch (error) {
+	    return item.slice(1,-1).split(",");
+	  }
+	});
+	
+	var list_obj={}
+	$.each(updatedArr,function(idx,data){
+		list_obj[keyData[idx]]=data;
+	});
+	console.log(list_obj)
+	$.each(list_obj,function(idx,data){
+		console.log(data)
+	});
+	
+	
+	
     var bouCtx = document.getElementsByClassName('blog-overview-chart')[0];
     
-let dataLength = result.reduce((acc, row) => Math.max(acc, row.length), 0);
-let labelsArray = Array.from(new Array(dataLength), (_, i) => i + 1);
-
-let bouData = { labels: labelsArray, datasets: [] };
-
-for (let i = 0; i < 10; i++) {
-  bouData.datasets.push({
-    label: keyData[i%10],
-    fill: 'start',
-    backgroundColor: ranColor[i%10],
-    borderColor: ranColor2[i%10],
-    pointBackgroundColor: '#ffffff',
-    pointHoverBackgroundColor: ranColor2[i%10],
-    borderWidth: 1.5,
-    pointRadius: 0,
-    pointHoverRadius: 3,
-    data: result.reduce((acc, row) => {
-      if (row[i]) { // row[i] 값이 존재할 경우
-        acc.push(row[i].reduce((subAcc, val) => {
-          if (Array.isArray(val)) {
-            subAcc.push(...val);
-          } else {
-            subAcc.push(val);
-          }
-          return subAcc;
-        }, []));
-      } else { // row[i] 값이 존재하지 않는 경우 null 값 추가하지 않음
-        acc.push(row[i]);
-      }
-      return acc;
-    }, [])
-  });
-}
-
+	let labelsArray = Array.from(new Array(30), (_, i) => i + 1);
+	
+	var bouCtx = document.getElementsByClassName('blog-overview-chart')[0];
+	let bouData = { labels: labelsArray, datasets: [] };
+	
+	for (let i = 0; i < 10; i++) {
+	  bouData.datasets.push({
+	    label: keyData[i%10],
+	    fill: 'start',
+	    backgroundColor: ranColor[i%10],
+	    borderColor: ranColor2[i%10],
+	    pointBackgroundColor: '#ffffff',
+	    pointHoverBackgroundColor: ranColor2[i%10],
+	    borderWidth: 1.5,
+	    pointRadius: 0,
+	    pointHoverRadius: 3,
+	    data: []
+	  });
+	}
 	//console.log(bouData.datasets)
-	
-	
+
     var bouOptions = {
       responsive: true,
       legend: {
@@ -99,7 +92,7 @@ for (let i = 0; i < 10; i++) {
           gridLines: false, // grid 가 필요할때 지우자
           ticks: {
             callback: function (tick, index) {
-              return index % 10 !== 0 ? '' : tick;
+              return tick; // index % 10 !== 0 ? '' : tick;
             }
           }
         }],
@@ -165,8 +158,6 @@ for (let i = 0; i < 10; i++) {
 	    BlogOverviewChart.update();
 	  });
 	});
-	
-	
 	
 
   });

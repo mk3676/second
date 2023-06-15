@@ -75,7 +75,7 @@ public class MainController {
 		System.out.println(resultMap);
 		for( String i : resultMap.keySet()) {
 			model.addObject(i , resultMap.get(i));
-			System.out.println(i);
+			//System.out.println(i);
 		}
 				
 		// jsp로 전송
@@ -167,8 +167,8 @@ public class MainController {
 		columnList.remove("opdatetime");
 		System.out.println("columnList: "+ columnList);
 		// 날짜별 전체 데이터 가져오기
+		
  		List<Map<String, Object>> getTableByDate = service.getTableByDate(vo, date, columnList);
-	 	System.out.println(date+" 날짜별: "+getTableByDate);
 	    return getTableByDate;
 	}
 	
