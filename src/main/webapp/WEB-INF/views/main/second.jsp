@@ -92,7 +92,6 @@ $(document).ready(function () {
 
 	// 실시간 온도 & 습도 데이터 출력
 	setInterval(() => {
-		console.log("checkcheck")
 		$.ajax({
 			type: "get",
 			url: "/sensor/resultData",
@@ -107,6 +106,19 @@ $(document).ready(function () {
 			}
 		})
 	}, 5000);
+	
+	// Date-picker 실행
+	$(function() {
+	  $("#blog-overview-date-range-1").datepicker({
+	    defaultDate: new Date(),
+	    showOtherMonths: true,
+	    selectOtherMonths: true
+	  });
+
+	  $("#blog-overview-date-range-1").on("click", function() {
+	    $(".ui-datepicker").addClass("shards-datepicker");
+	  });
+	});
 })
 </script>
 <!-- End Script -->

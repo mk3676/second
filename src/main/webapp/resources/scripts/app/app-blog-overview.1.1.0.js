@@ -32,29 +32,59 @@
 	  try {
 	    return JSON.parse(item);
 	  } catch (error) {
-	    return item.slice(1,-1).split(",");
+	    return item.slice(1,-1).split(", ");
 	  }
 	});
+	
+	// 날짜형식 변환
+	//const dateObj = new Date(date.value);
+	//const newDate = dateObj.toISOString().slice(0, 10);
 	
 	var list_obj={}
 	$.each(updatedArr,function(idx,data){
 		list_obj[keyData[idx]]=data;
 	});
 	console.log(list_obj)
-	$.each(list_obj,function(idx,data){
-		console.log(data)
+
+
+
+	var list_obj_date = {};
+	var list_obj_num = {};
+	
+	$.each(list_obj.DATE, function(idx, data){
+	  var key = data.trim().substring(0, 10);
+	  list_obj_date[key] = [];
+	  list_obj_date[key].push(data.trim());
 	});
 	
+	$.each(list_obj, function(key, value){
+	  //if (key === "DATE") return;
+	
+	  list_obj_num[key] = {};
+	
+	  $.each(list_obj[key], function(idx, data){
+	    var obj_key = list_obj.DATE[idx].trim().substring(0, 10);
+	
+	    if (!(obj_key in list_obj_num[key])){
+	      list_obj_num[key][obj_key] = [];
+	    }
+	
+	    list_obj_num[key][obj_key].push(data);
+	  });
+	});
+	console.log("여기:" ,list_obj_num)
+	
+	let dateData = Object.keys(list_obj_date)
 	
 	
     var bouCtx = document.getElementsByClassName('blog-overview-chart')[0];
     
-	let labelsArray = Array.from(new Array(30), (_, i) => i + 1);
+	let labelsArray = Array.from(new Array(700), (_, i) => i + 1);
 	
 	var bouCtx = document.getElementsByClassName('blog-overview-chart')[0];
 	let bouData = { labels: labelsArray, datasets: [] };
 	
-	for (let i = 0; i < 10; i++) {
+	for (let i = 0; i < keyData.length; i++) {
 	  bouData.datasets.push({
 	    label: keyData[i%10],
 	    fill: 'start',
@@ -65,11 +95,10 @@
 	    borderWidth: 1.5,
 	    pointRadius: 0,
 	    pointHoverRadius: 3,
-	    data: []
+	    data: list_obj_num[keyData[i]][dateData[0]]
 	  });
 	}
-	//console.log(bouData.datasets)
-
+	
     var bouOptions = {
       responsive: true,
       legend: {
@@ -92,7 +121,7 @@
           gridLines: false, // grid 가 필요할때 지우자
           ticks: {
             callback: function (tick, index) {
-              return tick; // index % 10 !== 0 ? '' : tick;
+              return index % 10 !== 0 ? '' : tick;
             }
           }
         }],
