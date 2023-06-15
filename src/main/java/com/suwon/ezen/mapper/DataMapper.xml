@@ -57,4 +57,16 @@
 		update userInfo set status = #{status} where pointer = #{pointer}
 	</update>
 	
+	<!-- 날짜데이터를 받아 해당하는 전체 데이터 가져오기 -->
+	<select id="getTableByDate" parameterType="list" resultType="hashmap">
+        SELECT loc.DATE, loc.BATT, loc.TEMP, 
+            <foreach item="col" collection="columnList" separator=",">
+                `${col}`
+            </foreach> 
+        FROM ${info.tiltName} AS tilt 
+        INNER JOIN ${info.structureName} AS loc 
+        ON tilt.opdatetime = loc.DATE
+        WHERE DATE_FORMAT(loc.DATE, '%Y-%m-%d') = STR_TO_DATE(#{date}, '%m/%d/%Y')
+    </select>
+
 </mapper>
