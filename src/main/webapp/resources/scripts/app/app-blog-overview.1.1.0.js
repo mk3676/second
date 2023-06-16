@@ -133,7 +133,7 @@
           gridLines: false, // grid 가 필요할때 지우자
           ticks: {
             callback: function (tick, index) {
-              return index % 2 !== 0 ? '' : tick;
+              return tick; //index % 2 !== 0 ? '' : tick;
             }
           }
         }],
@@ -228,7 +228,7 @@
 	          gridLines: false, // grid 가 필요할때 지우자
 	          ticks: {
 	            callback: function (tick, index) {
-	              return index % 2 !== 0 ? '' : tick;
+	              return tick; //index % 2 !== 0 ? '' : tick;
 	            }
 	          }
 	        }],
