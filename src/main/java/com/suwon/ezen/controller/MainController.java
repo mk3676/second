@@ -45,7 +45,6 @@ public class MainController {
 
 		// 페이징 처리
 		Paging paging = new Paging(service.getCountTilt(vo), pageNum);
-//		List<Map<String, Object>> pageList = mapList.subList(paging.getOffset(), Math.min(paging.getOffset() + 10, mapList.size()));
 		List<Map<String, Object>> pageList = service.getTablePaging(vo, columnList, paging.getOffset());
 				
 		// 사용자 테이블(tilt + structure) 속성 추가
@@ -78,8 +77,10 @@ public class MainController {
 			//System.out.println(i);
 		}
 				
+		int totalDataCount = service.getCountTilt(vo);
+		System.out.println("전체 개수: " + totalDataCount);
 		// jsp로 전송
-		/* model.addObject("list", mapList); */
+//		model.addObject("mapList", mapList);
 		// key(속성) 값
 		model.addObject("key", columnList);
 		// 페이징 처리된 테이블 데이터
@@ -90,6 +91,7 @@ public class MainController {
 		model.addObject("pointer", pointer);
 		// status 반영
 		model.addObject("status", vo.getStatus());
+		model.addObject("count", totalDataCount);
 		model.setViewName("/main/second");
 				
 		return model;
@@ -138,7 +140,7 @@ public class MainController {
 		vo.setPointer(pointer);
 		vo.setStatus(status);
 		
-		int returnCheck = service.changePassword(vo);
+		int returnCheck = service.changeStatus(vo);
 		System.out.println("결과는? " + returnCheck);
 		HashMap<String, String> map = new HashMap<String, String>(); 
 		
@@ -149,6 +151,31 @@ public class MainController {
 		else {
 			map.put("value", "0");
 			map.put("text", "수정에 실패하였습니다.");
+		}
+		
+		return new ResponseEntity<HashMap<String, String>>(map, HttpStatus.OK);
+	}
+	
+	@GetMapping("/pwdCheckWChangePassword")
+	public ResponseEntity<HashMap<String, String>> pwdCheckWChangePassword(@Param("pwd") String pwd, @Param("cnt") int cnt) {
+		System.out.println("패스워드 확인: " + pwd);
+		UserVO vo = service.comparePassword(pwd, cnt);
+		HashMap<String, String> map = new HashMap<String, String>(); 
+		
+		if (vo == null) {
+			map.put("text", "틀린 비밀번호입니다.");
+		}
+		else if (pwd.equals(vo.getPwd())) {
+			vo.setStatus("열람가능");
+			
+			int returnCheck = service.changeStatus(vo);
+			
+			if (returnCheck == 1) {
+				map.put("text", "수정이 완료되었습니다.");
+			}
+			else {
+				map.put("text", "수정에 실패하였습니다.");
+			}
 		}
 		
 		return new ResponseEntity<HashMap<String, String>>(map, HttpStatus.OK);

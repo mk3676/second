@@ -53,7 +53,7 @@
 	</select>
 	
 	<!-- status 변경하기 -->
-	<update id="changePassword" parameterType="com.suwon.ezen.vo.UserVO" >
+	<update id="changeStatus" parameterType="com.suwon.ezen.vo.UserVO" >
 		update userInfo set status = #{status} where pointer = #{pointer}
 	</update>
 	
