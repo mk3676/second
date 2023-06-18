@@ -83,8 +83,8 @@ public class DataServiceImpl implements DataService {
 	
 	// status 변경하기
 	@Override
-	public int changePassword(UserVO vo) {
-		int result = mapper.changePassword(vo);
+	public int changeStatus(UserVO vo) {
+		int result = mapper.changeStatus(vo);
 		
 		return result;
 	}
