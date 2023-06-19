@@ -74,7 +74,6 @@ public class MainController {
 		System.out.println(resultMap);
 		for( String i : resultMap.keySet()) {
 			model.addObject(i , resultMap.get(i));
-			//System.out.println(i);
 		}
 				
 		int totalDataCount = service.getCountTilt(vo);
