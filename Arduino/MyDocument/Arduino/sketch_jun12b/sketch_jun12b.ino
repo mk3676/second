@@ -127,8 +127,8 @@ const char* ssid = "Ezen_7632";
 const char* password = "a123456789"; //학원 무선 AP 
 
 //Your Domain name with URL path or IP address with path
-const char* serverName = "http://192.168.0.76:80/sensor/getData";  //스프링 서버
-const char* serverName2 = "http://192.168.0.50:80/sensor/getData";  //스프링 서버
+const char* serverName = "http://192.168.0.76:8080/sensor/getData";  //스프링 서버
+const char* serverName2 = "http://192.168.0.50:8080/sensor/getData";  //스프링 서버
 
 // the following variables are unsigned longs because the time, measured in
 // milliseconds, will quickly become a bigger number than can be stored in an int.
