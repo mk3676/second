@@ -38,7 +38,7 @@
 	
 	<!-- userinfo 전체 데이터 가져오기 -->
 	<select id="getAllUserInfo" resultType="com.suwon.ezen.vo.UserVO">
-		select * from userInfo limit 10 offset #{offset}
+		select * from userInfo order by cnt desc limit 10 offset #{offset}
 	</select>
 	
 	<!-- 전체 데이터의 갯수 가져오기 -->
